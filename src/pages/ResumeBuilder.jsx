@@ -3,12 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { User, Menu } from 'lucide-react';
 import ProfileSummaryCard from '../components/ProfileSummaryCard';
 import Sidebar from '../components/Sidebar';
+import ResumeStrengthCard from '../components/ResumeStrengthCard';
 import './Dashboard.css';
+import './ResumeBuilder.css';
 
-function Dashboard() {
+function ResumeBuilder() {
   const navigate = useNavigate();
   const [showProfileCard, setShowProfileCard] = useState(false);
-  const [showMobileSidebar, setShowMobileSidebar] = useState(false);
 
   const handleLogout = () => {
     navigate('/');
@@ -18,16 +19,12 @@ function Dashboard() {
     setShowProfileCard(!showProfileCard);
   };
 
-  const toggleMobileSidebar = () => {
-    setShowMobileSidebar(!showMobileSidebar);
-  };
-
   return (
     <div className="dashboard-page">
       <nav className="top-bar">
         <div className="top-bar-content">
           <div className="logo">
-            <button className="mobile-menu-btn" onClick={toggleMobileSidebar}>
+            <button className="mobile-menu-btn">
               <Menu size={24} />
             </button>
             <span className="logo-text">Portfolio</span>
@@ -69,11 +66,22 @@ function Dashboard() {
 
       <div className="dashboard-container">
         <main className="dashboard-content">
-          {/* Content goes here */}
+          <div className="page-header">
+            <h1 className="page-title">Resume Builder</h1>
+            <p className="page-subtitle">Build and optimize your professional resume</p>
+          </div>
+
+          <div className="resume-builder-content">
+            <ResumeStrengthCard
+              score={78}
+              strengths={['React', 'Node.js', 'Git']}
+              weakAreas={['System Design', 'Testing']}
+            />
+          </div>
         </main>
       </div>
     </div>
   );
 }
 
-export default Dashboard;
+export default ResumeBuilder;

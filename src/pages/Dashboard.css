@@ -16,7 +16,7 @@
 }
 
 .top-bar-content {
-  max-width: 1400px;
+  max-width: 100%;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -55,6 +55,9 @@
   display: flex;
   gap: 2rem;
   align-items: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .nav-link {
@@ -116,6 +119,23 @@
   padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
+}
+
+.profile-section {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0 3rem 0;
+  padding: 0 1rem;
+}
+
+@media (max-width: 768px) {
+  .profile-section {
+    margin: 1rem 0 2rem 0;
+  }
+  
+  .dashboard-content {
+    padding: 1rem;
+  }
 }
 
 .welcome-card {
@@ -184,5 +204,111 @@
 
   .stats-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* User Profile Button */
+.btn-user-profile {
+  padding: 0.5rem;
+  background: transparent;
+  color: #ffffff;
+  border: 1px solid #404040;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-user-profile:hover {
+  background: #2d2d2d;
+  border-color: #ffa116;
+  color: #ffa116;
+}
+
+/* Profile Dropdown */
+.profile-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 1100;
+  animation: fadeIn 0.2s ease;
+}
+
+.profile-dropdown {
+  position: fixed;
+  top: 70px;
+  right: 2rem;
+  z-index: 1200;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-dropdown {
+    right: 1rem;
+    left: 1rem;
+    top: 70px;
+  }
+}
+
+/* Mobile Menu Button */
+.mobile-menu-btn {
+  display: none;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  padding: 0.5rem;
+  margin-right: 0.5rem;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.mobile-menu-btn:hover {
+  background: #2d2d2d;
+}
+
+/* Dashboard Container with Sidebar */
+.dashboard-container {
+  margin-left: 260px;
+  min-height: calc(100vh - 60px);
+  transition: margin-left 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .mobile-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .dashboard-container {
+    margin-left: 0;
   }
 }
