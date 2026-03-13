@@ -148,3 +148,113 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
+
+
+// AI Routes
+
+// Analyze resume
+app.post('/api/ai/analyze-resume', async (req, res) => {
+  try {
+    const { resumeText } = req.body;
+
+    if (!resumeText) {
+      return res.status(400).json({ error: 'Resume text is required' });
+    }
+
+    // TODO: Integrate with Google AI API using process.env.AI_API_KEY
+    // For now, return mock data
+    const analysis = {
+      score: 78,
+      strengths: ['React', 'Node.js', 'Git'],
+      weakAreas: ['System Design', 'Testing'],
+      suggestions: [
+        'Add more quantifiable achievements',
+        'Include relevant certifications',
+        'Improve technical skills section'
+      ]
+    };
+
+    res.json(analysis);
+  } catch (error) {
+    console.error('AI analysis error:', error);
+    res.status(500).json({ error: 'Failed to analyze resume' });
+  }
+});
+
+// Generate suggestions
+app.post('/api/ai/generate-suggestions', async (req, res) => {
+  try {
+    const { userProfile } = req.body;
+
+    if (!userProfile) {
+      return res.status(400).json({ error: 'User profile is required' });
+    }
+
+    // TODO: Integrate with Google AI API using process.env.AI_API_KEY
+    const suggestions = {
+      careerPath: 'Senior Full Stack Developer',
+      skillsToLearn: ['Docker', 'Kubernetes', 'AWS'],
+      projectIdeas: [
+        'Build a microservices architecture',
+        'Create a CI/CD pipeline',
+        'Develop a scalable API'
+      ]
+    };
+
+    res.json(suggestions);
+  } catch (error) {
+    console.error('AI suggestions error:', error);
+    res.status(500).json({ error: 'Failed to generate suggestions' });
+  }
+});
+
+// Improve content
+app.post('/api/ai/improve-content', async (req, res) => {
+  try {
+    const { content, section } = req.body;
+
+    if (!content || !section) {
+      return res.status(400).json({ error: 'Content and section are required' });
+    }
+
+    // TODO: Integrate with Google AI API using process.env.AI_API_KEY
+    const improvedContent = {
+      original: content,
+      improved: `Enhanced version of: ${content}`,
+      changes: ['Made more concise', 'Added action verbs', 'Quantified results']
+    };
+
+    res.json(improvedContent);
+  } catch (error) {
+    console.error('AI improve content error:', error);
+    res.status(500).json({ error: 'Failed to improve content' });
+  }
+});
+
+// Analyze skills
+app.post('/api/ai/analyze-skills', async (req, res) => {
+  try {
+    const { currentSkills, targetRole } = req.body;
+
+    if (!currentSkills || !targetRole) {
+      return res.status(400).json({ error: 'Current skills and target role are required' });
+    }
+
+    // TODO: Integrate with Google AI API using process.env.AI_API_KEY
+    const analysis = {
+      matchPercentage: 75,
+      missingSkills: ['Docker', 'Kubernetes', 'System Design'],
+      strongSkills: ['React', 'Node.js', 'MongoDB'],
+      learningPath: [
+        { skill: 'Docker', priority: 'High', estimatedTime: '2 weeks' },
+        { skill: 'Kubernetes', priority: 'Medium', estimatedTime: '3 weeks' },
+        { skill: 'System Design', priority: 'High', estimatedTime: '4 weeks' }
+      ]
+    };
+
+    res.json(analysis);
+  } catch (error) {
+    console.error('AI skills analysis error:', error);
+    res.status(500).json({ error: 'Failed to analyze skills' });
+  }
+});
