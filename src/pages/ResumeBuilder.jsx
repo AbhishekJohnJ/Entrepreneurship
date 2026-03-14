@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User, Menu, Paperclip, X, Send, FileText, Image } from 'lucide-react';
+import { User, Menu, Plus, X, Send, FileText, Image } from 'lucide-react';
 import ProfileSummaryCard from '../components/ProfileSummaryCard';
 import Sidebar from '../components/Sidebar';
 import TemplatePickerCard from '../components/TemplatePickerCard';
@@ -13,7 +13,9 @@ function ResumeBuilder() {
   const [selectedTemplate, setSelectedTemplate] = useState(null);
   const [prompt, setPrompt] = useState('');
   const [files, setFiles] = useState([]);
+  const [showUploadMenu, setShowUploadMenu] = useState(false);
   const fileInputRef = useRef(null);
+  const docInputRef = useRef(null);
 
   const handleLogout = () => navigate('/');
   const toggleProfileCard = () => setShowProfileCard(!showProfileCard);
@@ -22,23 +24,18 @@ function ResumeBuilder() {
     const picked = Array.from(e.target.files);
     setFiles(prev => [...prev, ...picked]);
     e.target.value = '';
+    setShowUploadMenu(false);
   };
 
   const removeFile = (idx) => setFiles(prev => prev.filter((_, i) => i !== idx));
 
   const handleSubmit = () => {
     if (!prompt.trim() && files.length === 0) return;
-    // TODO: wire to AI service
     console.log('Prompt:', prompt, 'Files:', files);
   };
 
-  const getFileIcon = (file) => {
-    if (file.type.startsWith('image/')) return <Image size={14} />;
-    return <FileText size={14} />;
-  };
-
   return (
-    <div className="dashboard-page">
+    <div className="dashboard-page resume-builder-page">
       <nav className="top-bar">
         <div className="top-bar-content">
           <div className="logo">
@@ -94,53 +91,59 @@ function ResumeBuilder() {
               <h3 className="rb-prompt-title">Describe your resume or upload your existing one</h3>
               <p className="rb-prompt-sub">Tell the AI about your experience, skills, and the job you're targeting — or upload a file to get started.</p>
 
-              <div className="rb-prompt-box">
-                {/* File chips */}
-                {files.length > 0 && (
-                  <div className="rb-file-chips">
-                    {files.map((f, i) => (
-                      <div key={i} className="rb-file-chip">
-                        {getFileIcon(f)}
-                        <span>{f.name}</span>
-                        <button onClick={() => removeFile(i)}><X size={12} /></button>
-                      </div>
-                    ))}
-                  </div>
-                )}
+              {/* Hidden file inputs */}
+              <input ref={fileInputRef} type="file" accept=".jpg,.jpeg,.png,.gif,.webp" multiple style={{ display: 'none' }} onChange={handleFileChange} />
+              <input ref={docInputRef} type="file" accept=".pdf,.doc,.docx,.txt" multiple style={{ display: 'none' }} onChange={handleFileChange} />
 
-                <textarea
-                  className="rb-textarea"
-                  placeholder="e.g. I'm a Full Stack Developer with 3 years of experience in React and Node.js, applying for a Senior Developer role at a fintech company..."
+              {/* File chips above bar */}
+              {files.length > 0 && (
+                <div className="rb-file-chips">
+                  {files.map((f, i) => (
+                    <div key={i} className="rb-file-chip">
+                      {f.type.startsWith('image/') ? <Image size={13} /> : <FileText size={13} />}
+                      <span>{f.name}</span>
+                      <button onClick={() => removeFile(i)}><X size={11} /></button>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Pill bar */}
+              <div className={`rb-bar${prompt.trim() || files.length ? ' rb-bar-active' : ''}`}>
+                <div className="rb-plus-wrap">
+                  <button className="rb-plus-btn" onClick={() => setShowUploadMenu(v => !v)}>
+                    <Plus size={18} />
+                  </button>
+                  {showUploadMenu && (
+                    <div className="rb-upload-menu">
+                      <button className="rb-upload-option" onClick={() => fileInputRef.current.click()}>
+                        <Image size={16} />
+                        <span>Upload Image</span>
+                        <span className="rb-upload-hint">JPG, PNG</span>
+                      </button>
+                      <button className="rb-upload-option" onClick={() => docInputRef.current.click()}>
+                        <FileText size={16} />
+                        <span>Upload Document</span>
+                        <span className="rb-upload-hint">PDF, DOCX</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
+                <input
+                  className="rb-input"
+                  type="text"
+                  placeholder="Describe your experience, skills, or the job you're targeting..."
                   value={prompt}
                   onChange={e => setPrompt(e.target.value)}
-                  rows={4}
-                  onKeyDown={e => { if (e.key === 'Enter' && e.ctrlKey) handleSubmit(); }}
+                  onKeyDown={e => { if (e.key === 'Enter') handleSubmit(); }}
                 />
-
-                <div className="rb-prompt-actions">
-                  <div className="rb-prompt-left">
-                    <input
-                      ref={fileInputRef}
-                      type="file"
-                      accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.txt"
-                      multiple
-                      style={{ display: 'none' }}
-                      onChange={handleFileChange}
-                    />
-                    <button className="rb-attach-btn" onClick={() => fileInputRef.current.click()}>
-                      <Paperclip size={16} />
-                      <span>Attach file</span>
-                    </button>
-                    <span className="rb-file-hint">PDF, DOCX, JPG, PNG</span>
-                  </div>
-                  <button
-                    className={`rb-send-btn ${prompt.trim() || files.length ? 'active' : ''}`}
-                    onClick={handleSubmit}
-                  >
-                    <Send size={16} />
-                    <span>Generate Resume</span>
-                  </button>
-                </div>
+                <button
+                  className={`rb-send-btn${prompt.trim() || files.length ? ' rb-send-active' : ''}`}
+                  onClick={handleSubmit}
+                  disabled={!prompt.trim() && files.length === 0}
+                >
+                  <Send size={16} />
+                </button>
               </div>
             </div>
           </div>

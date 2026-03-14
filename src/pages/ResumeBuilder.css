@@ -1,6 +1,41 @@
-/* ── Page background override ── */
-.dashboard-page {
-  background: #111111;
+/* ── Animated dark background — scoped to resume builder only ── */
+.resume-builder-page {
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 25%, #2d2d2d 50%, #1a1a1a 75%, #0a0a0a 100%);
+}
+
+.resume-builder-page::before {
+  content: '';
+  position: fixed;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: radial-gradient(circle, rgba(255,215,0,0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: rbMoveBg 25s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.resume-builder-page::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 15% 85%, rgba(255,215,0,0.15) 0%, transparent 40%),
+    radial-gradient(circle at 85% 15%, rgba(255,193,7,0.15) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(255,165,0,0.1) 0%, transparent 50%);
+  pointer-events: none;
+  animation: rbPulse 8s ease-in-out infinite;
+  z-index: 0;
+}
+
+@keyframes rbMoveBg {
+  0%   { transform: translate(0,0) rotate(0deg); }
+  100% { transform: translate(50px,50px) rotate(360deg); }
+}
+
+@keyframes rbPulse {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1; }
 }
 
 /* ── Page Header ── */
@@ -9,9 +44,10 @@
 .page-title {
   font-size: 2rem;
   font-weight: 700;
-  color: #ffa116;
+  color: #ffd700;
   margin: 0 0 0.5rem 0;
   letter-spacing: -0.02em;
+  text-shadow: 0 0 20px rgba(255,215,0,0.3);
 }
 
 .page-subtitle {
@@ -27,17 +63,11 @@
   padding: 1rem 0;
 }
 
-@media (max-width: 768px) {
-  .page-title { font-size: 1.5rem; }
-  .page-subtitle { font-size: 0.875rem; }
-  .resume-builder-content { padding: 0.5rem 0; }
-}
-
 /* ── AI Prompt Section ── */
 .rb-prompt-section {
   margin-top: 2.5rem;
   padding-top: 2rem;
-  border-top: 1px solid #2d2d2d;
+  border-top: 1px solid rgba(255,215,0,0.15);
 }
 
 .rb-prompt-title {
@@ -52,41 +82,30 @@
   font-size: 0.9rem;
   color: #888;
   margin: 0 0 1.25rem;
-}
-
-.rb-prompt-box {
-  background: #1a1a1a;
-  border: 2px solid #2d2d2d;
-  border-radius: 14px;
-  padding: 1rem 1.1rem 0.85rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.rb-prompt-box:focus-within {
-  border-color: #ffa116;
-  box-shadow: 0 0 0 3px rgba(255, 161, 22, 0.12);
+  font-family: 'Inter', sans-serif;
 }
 
 /* File chips */
 .rb-file-chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 0.75rem;
+  gap: 0.4rem;
+  margin-bottom: 0.6rem;
 }
 
 .rb-file-chip {
   display: flex;
   align-items: center;
   gap: 5px;
-  background: rgba(255, 161, 22, 0.1);
-  border: 1px solid rgba(255, 161, 22, 0.35);
-  color: #ffa116;
-  font-size: 0.78rem;
+  background: rgba(255,215,0,0.1);
+  border: 1px solid rgba(255,215,0,0.3);
+  color: #ffd700;
+  font-size: 0.75rem;
   font-weight: 500;
-  padding: 4px 8px 4px 7px;
+  padding: 3px 8px;
   border-radius: 20px;
   max-width: 200px;
+  font-family: 'Inter', sans-serif;
 }
 
 .rb-file-chip span {
@@ -100,102 +119,134 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: #ffa116;
+  color: #ffd700;
   display: flex;
   align-items: center;
   padding: 0;
-  margin-left: 2px;
-  flex-shrink: 0;
 }
 
 .rb-file-chip button:hover { color: #ff4444; }
 
-/* Textarea */
-.rb-textarea {
+/* Pill bar */
+.rb-bar {
+  display: flex;
+  align-items: center;
+  background: rgba(255,255,255,0.05);
+  border: 1.5px solid rgba(255,215,0,0.2);
+  border-radius: 999px;
+  padding: 6px 8px 6px 6px;
+  backdrop-filter: blur(10px);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.rb-bar:focus-within,
+.rb-bar-active {
+  border-color: rgba(255,215,0,0.5);
+  box-shadow: 0 0 0 3px rgba(255,215,0,0.08);
+}
+
+/* + button */
+.rb-plus-wrap { position: relative; flex-shrink: 0; }
+
+.rb-plus-btn {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: rgba(255,215,0,0.1);
+  border: 1px solid rgba(255,215,0,0.25);
+  color: #ffd700;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  flex-shrink: 0;
+}
+
+.rb-plus-btn:hover {
+  background: #ffd700;
+  color: #1a1a1a;
+  box-shadow: 0 0 12px rgba(255,215,0,0.4);
+}
+
+/* Upload popup menu */
+.rb-upload-menu {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 0;
+  background: #1a1a1a;
+  border: 1px solid rgba(255,215,0,0.2);
+  border-radius: 12px;
+  padding: 6px;
+  min-width: 220px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  z-index: 100;
+  animation: rbMenuIn 0.15s ease;
+}
+
+@keyframes rbMenuIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.rb-upload-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   width: 100%;
+  background: none;
+  border: none;
+  color: #e5e5e5;
+  font-size: 0.85rem;
+  font-family: 'Inter', sans-serif;
+  padding: 9px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s;
+}
+
+.rb-upload-option:hover { background: rgba(255,215,0,0.08); color: #ffd700; }
+
+.rb-upload-hint { font-size: 0.72rem; color: #555; margin-left: auto; }
+
+/* Text input */
+.rb-input {
+  flex: 1;
+  background: transparent;
   border: none;
   outline: none;
-  resize: none;
-  font-size: 0.95rem;
   color: #e5e5e5;
+  font-size: 0.95rem;
   font-family: 'Inter', sans-serif;
-  line-height: 1.6;
-  background: transparent;
+  padding: 0 12px;
+  min-width: 0;
 }
 
-.rb-textarea::placeholder { color: #555; }
+.rb-input::placeholder { color: #555; }
 
-/* Bottom actions row */
-.rb-prompt-actions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 0.75rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid #2d2d2d;
-}
-
-.rb-prompt-left {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.rb-attach-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: #2d2d2d;
-  border: 1px solid #3d3d3d;
-  border-radius: 8px;
-  padding: 0.4rem 0.85rem;
-  font-size: 0.83rem;
-  font-weight: 600;
-  color: #aaa;
-  cursor: pointer;
-  transition: background 0.2s, border-color 0.2s, color 0.2s;
-  font-family: 'Inter', sans-serif;
-}
-
-.rb-attach-btn:hover {
-  background: #333;
-  border-color: #ffa116;
-  color: #ffa116;
-}
-
-.rb-file-hint {
-  font-size: 0.75rem;
-  color: #555;
-}
-
+/* Send button */
 .rb-send-btn {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  background: #2d2d2d;
-  color: #555;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
   border: none;
-  border-radius: 10px;
-  padding: 0.55rem 1.3rem;
-  font-size: 0.88rem;
-  font-weight: 700;
+  color: #444;
+  display: flex; align-items: center; justify-content: center;
   cursor: not-allowed;
-  font-family: 'Inter', sans-serif;
-  transition: background 0.2s, color 0.2s, transform 0.1s;
+  flex-shrink: 0;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
 }
 
-.rb-send-btn.active {
-  background: #ffa116;
-  color: #1a1a1a;
-  cursor: pointer;
+.rb-send-active {
+  background: #ffd700 !important;
+  color: #1a1a1a !important;
+  cursor: pointer !important;
+  box-shadow: 0 0 12px rgba(255,215,0,0.4) !important;
 }
 
-.rb-send-btn.active:hover {
-  background: #ffb340;
-  transform: scale(1.02);
-}
+.rb-send-active:hover { background: #ffed4e !important; }
 
-@media (max-width: 600px) {
-  .rb-prompt-actions { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
-  .rb-send-btn { width: 100%; justify-content: center; }
+@media (max-width: 768px) {
+  .page-title { font-size: 1.5rem; }
+  .page-subtitle { font-size: 0.875rem; }
+  .resume-builder-content { padding: 0.5rem 0; }
+  .rb-input { font-size: 0.85rem; }
 }
