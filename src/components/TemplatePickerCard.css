@@ -52,21 +52,32 @@
 }
 
 /* ── Preview ── */
+/* 
+  A4 = 794px wide. We want the card preview to fill the card width.
+  We use a container with overflow:hidden and a fixed aspect ratio,
+  then absolutely position the scaled resume inside it.
+  scale = container_width / 794
+  We set container height = 1123 * scale to maintain A4 ratio.
+*/
 .tpl-preview-wrap {
-  height: 340px;
   overflow: hidden;
   background: #f8f9fa;
   cursor: pointer;
   width: 100%;
   border-bottom: 1px solid #2d2d2d;
+  /* aspect ratio: A4 = 794:1123 ≈ 1:1.415 — show top ~30% of page */
+  height: 340px;
+  position: relative;
 }
-/* card width ≈ 300px (grid col). scale = 300/794 = 0.378 */
 .tpl-preview-scale {
-  transform: scale(0.378);
+  position: absolute;
+  top: 0;
+  left: 0;
   transform-origin: top left;
-  width: 794px;
+  /* scale is set inline via JS so it adapts to actual card width */
   pointer-events: none;
   user-select: none;
+  width: 794px;
 }
 
 /* ── Modal popup ── */
@@ -123,13 +134,7 @@
   background: #fff;
   border-bottom: 1px solid #2d2d2d;
   flex-shrink: 0;
-}
-
-.tpl-modal-scale {
-  transform: scale(0.6045);
-  transform-origin: top left;
-  width: 794px;
-  pointer-events: none;
+  position: relative;
 }
 
 .tpl-modal-actions {

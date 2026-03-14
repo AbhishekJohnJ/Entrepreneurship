@@ -1,5 +1,29 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './TemplatePickerCard.css';
+
+/* Wrapper that scales resume to fill its container width */
+function ScaledPreview({ children, className }) {
+  const wrapRef = useRef(null);
+  const [scale, setScale] = useState(0.378);
+
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
+    const update = () => setScale(el.offsetWidth / 794);
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  return (
+    <div ref={wrapRef} className={className}>
+      <div style={{ transform: `scale(${scale})`, transformOrigin: 'top left', width: 794, position: 'absolute', top: 0, left: 0, pointerEvents: 'none', userSelect: 'none' }}>
+        {children}
+      </div>
+    </div>
+  );
+}
 
 const sampleData = {
   name: 'ALEX JOHNSON',
@@ -298,9 +322,9 @@ function TemplatePickerCard({ onSelect, selected }) {
         <div className="tpl-modal-overlay" onClick={() => setPreview(null)}>
           <div className="tpl-modal" onClick={e => e.stopPropagation()}>
             <button className="tpl-modal-close" onClick={() => setPreview(null)}>✕</button>
-            <div className="tpl-modal-preview">
-              <div className="tpl-modal-scale">{preview.component}</div>
-            </div>
+            <ScaledPreview className="tpl-modal-preview">
+              {preview.component}
+            </ScaledPreview>
             <div className="tpl-modal-actions">
               <p className="tpl-modal-name">{preview.name} Template</p>
               <button
@@ -322,9 +346,9 @@ function TemplatePickerCard({ onSelect, selected }) {
             onClick={() => setPreview(tpl)}
           >
             {tpl.id === 2 || tpl.id === 5 ? <div className="tpl-recommended">Recommended</div> : null}
-            <div className="tpl-preview-wrap">
-              <div className="tpl-preview-scale">{tpl.component}</div>
-            </div>
+            <ScaledPreview className="tpl-preview-wrap">
+              {tpl.component}
+            </ScaledPreview>
             <button
               className="tpl-choose-btn"
               onClick={e => { e.stopPropagation(); onSelect(tpl.id); }}
