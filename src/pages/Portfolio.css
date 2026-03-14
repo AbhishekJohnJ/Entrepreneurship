@@ -1,0 +1,465 @@
+/* ── Portfolio page layout ── */
+.pf-templates-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ── Each template row ── */
+.pf-row {
+  display: flex;
+  background: #1a1a1a;
+  border: 2px solid #2d2d2d;
+  border-radius: 14px;
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  height: 220px;
+}
+.pf-row:hover { border-color: #ffa116; box-shadow: 0 6px 24px rgba(255,161,22,0.15); }
+.pf-row-selected { border-color: #ffa116; box-shadow: 0 6px 24px rgba(255,161,22,0.25); }
+
+/* ── Left info panel ── */
+.pf-row-info {
+  width: 240px;
+  flex-shrink: 0;
+  padding: 1.25rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  border-right: 1px solid #2d2d2d;
+}
+
+.pf-badge {
+  display: inline-block;
+  background: #ffa116;
+  color: #1a1a1a;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 9px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+  width: fit-content;
+  margin-bottom: 1px;
+}
+
+.pf-tag {
+  font-size: 10px;
+  font-weight: 600;
+  color: #ffa116;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.pf-tpl-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+}
+
+.pf-tpl-desc {
+  font-size: 0.78rem;
+  color: #888;
+  line-height: 1.5;
+  margin: 0.15rem 0 0.5rem;
+  flex: 1;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.pf-row-actions {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: auto;
+}
+
+.pf-btn-preview {
+  flex: 1;
+  padding: 0.4rem 0.6rem;
+  background: transparent;
+  border: 1px solid #3d3d3d;
+  border-radius: 30px;
+  color: #aaa;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.pf-btn-preview:hover { border-color: #ffa116; color: #ffa116; }
+
+.pf-btn-select {
+  flex: 1;
+  padding: 0.4rem 0.6rem;
+  background: #2d2d2d;
+  border: 1px solid #3d3d3d;
+  border-radius: 30px;
+  color: #aaa;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.pf-btn-select:hover { background: #ffa116; color: #1a1a1a; border-color: #ffa116; }
+.pf-btn-selected { background: #ffa116 !important; color: #1a1a1a !important; border-color: #ffa116 !important; }
+
+/* ── Right preview panel ── */
+.pf-row-preview {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  background: #fff;
+}
+
+.pf-preview-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.pf-row-preview:hover .pf-preview-overlay { background: rgba(0,0,0,0.35); }
+
+.pf-preview-hint {
+  opacity: 0;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background: rgba(0,0,0,0.6);
+  padding: 0.5rem 1.2rem;
+  border-radius: 30px;
+  transition: opacity 0.2s;
+}
+.pf-row-preview:hover .pf-preview-hint { opacity: 1; }
+
+/* ── Modal ── */
+.pf-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pfFadeIn 0.2s ease;
+}
+
+.pf-modal {
+  background: #1a1a1a;
+  border: 1px solid #2d2d2d;
+  border-radius: 16px;
+  width: 90vw;
+  max-width: 960px;
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: pfSlideUp 0.25s ease;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.7);
+}
+
+.pf-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #2d2d2d;
+  gap: 1rem;
+}
+
+.pf-modal-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.pf-modal-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.pf-modal-close {
+  background: #2d2d2d;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 14px;
+  cursor: pointer;
+  color: #aaa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s;
+}
+.pf-modal-close:hover { background: #3d3d3d; color: #ffa116; }
+
+.pf-modal-body {
+  flex: 1;
+  overflow-y: auto;
+  background: #fff;
+  position: relative;
+  min-height: 560px;
+}
+
+/* modal scale-wrap: absolute so scroll works on the container, not the scaled div */
+.pf-modal-scale-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: scale(0.72);
+  transform-origin: top left;
+  width: 900px;
+}
+
+@keyframes pfFadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pfSlideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ════════════════════════════════════
+   SHARED PORTFOLIO TEMPLATE BASE
+════════════════════════════════════ */
+.pt {
+  width: 900px;
+  box-sizing: border-box;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* ════════════════════════════════════
+   T1 — Dark Hacker Theme
+════════════════════════════════════ */
+.pt1 {
+  background: #0d0d0d;
+  color: #e0e0e0;
+  font-family: 'Courier New', monospace;
+  padding: 0;
+}
+
+.pt1-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 40px;
+  border-bottom: 1px solid #1a1a1a;
+  background: #0d0d0d;
+}
+.pt1-logo { color: #00ff88; font-size: 18px; font-weight: 700; }
+.pt1-nav-links { display: flex; gap: 24px; }
+.pt1-nav-links span { color: #888; font-size: 13px; cursor: pointer; }
+.pt1-nav-links span:hover { color: #00ff88; }
+
+.pt1-hero {
+  padding: 60px 40px 40px;
+  border-bottom: 1px solid #1a1a1a;
+}
+.pt1-hero-badge {
+  display: inline-block;
+  background: rgba(0,255,136,0.1);
+  border: 1px solid #00ff88;
+  color: #00ff88;
+  font-size: 11px;
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+}
+.pt1-hero-name { font-size: 48px; font-weight: 700; color: #fff; margin: 0 0 6px; letter-spacing: -1px; }
+.pt1-hero-title { font-size: 18px; color: #00ff88; margin: 0 0 12px; }
+.pt1-hero-tagline { font-size: 14px; color: #666; margin: 0 0 24px; max-width: 500px; }
+.pt1-hero-btns { display: flex; gap: 12px; }
+.pt1-btn-primary { padding: 10px 24px; background: #00ff88; color: #0d0d0d; border: none; border-radius: 6px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; }
+.pt1-btn-outline { padding: 10px 24px; background: transparent; color: #00ff88; border: 1px solid #00ff88; border-radius: 6px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; }
+
+.pt1-skills-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 20px 40px;
+  border-bottom: 1px solid #1a1a1a;
+  background: #111;
+}
+.pt1-skill-tag {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  color: #00ff88;
+  font-size: 11px;
+  padding: 4px 12px;
+  border-radius: 4px;
+}
+
+.pt1-projects { padding: 32px 40px; }
+.pt1-section-title { font-size: 20px; font-weight: 700; color: #fff; margin: 0 0 20px; }
+.pt1-accent { color: #00ff88; margin-right: 8px; }
+.pt1-projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.pt1-project-card {
+  background: #111;
+  border: 1px solid #1e1e1e;
+  border-radius: 8px;
+  padding: 20px;
+  transition: border-color 0.2s;
+}
+.pt1-project-card:hover { border-color: #00ff88; }
+.pt1-project-num { font-size: 28px; font-weight: 700; color: #1e1e1e; margin-bottom: 8px; }
+.pt1-project-name { font-size: 14px; font-weight: 700; color: #fff; margin: 0 0 8px; }
+.pt1-project-desc { font-size: 12px; color: #666; margin: 0 0 12px; line-height: 1.5; }
+.pt1-project-tech { display: flex; flex-wrap: wrap; gap: 6px; }
+.pt1-tech-tag { background: rgba(0,255,136,0.08); color: #00ff88; font-size: 10px; padding: 2px 8px; border-radius: 4px; }
+
+.pt1-contact { padding: 24px 40px; border-top: 1px solid #1a1a1a; }
+.pt1-contact-text { color: #555; font-size: 13px; }
+
+/* ════════════════════════════════════
+   T2 — Clean Minimal Light
+════════════════════════════════════ */
+.pt2 {
+  background: #fff;
+  color: #1a1a1a;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  display: flex;
+}
+
+.pt2-sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  background: #f8f8f8;
+  border-right: 1px solid #e8e8e8;
+  padding: 32px 20px;
+}
+.pt2-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #6366f1;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+.pt2-name { font-size: 16px; font-weight: 700; color: #1a1a1a; margin: 0 0 4px; }
+.pt2-title { font-size: 12px; color: #6366f1; margin: 0 0 16px; }
+.pt2-divider { border: none; border-top: 1px solid #e0e0e0; margin: 12px 0; }
+.pt2-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #999; margin: 0 0 8px; }
+.pt2-contact-list { display: flex; flex-direction: column; gap: 6px; }
+.pt2-contact-item { font-size: 11px; color: #555; margin: 0; }
+.pt2-skills { display: flex; flex-wrap: wrap; gap: 6px; }
+.pt2-skill { background: #ede9fe; color: #6366f1; font-size: 10px; padding: 3px 10px; border-radius: 20px; font-weight: 600; }
+
+.pt2-main { flex: 1; padding: 32px 28px; }
+.pt2-section { margin-bottom: 28px; }
+.pt2-section-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a1a;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  border-bottom: 2px solid #6366f1;
+  padding-bottom: 6px;
+  margin: 0 0 14px;
+}
+.pt2-about { font-size: 13px; color: #444; line-height: 1.7; margin: 0; }
+.pt2-project { margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid #f0f0f0; }
+.pt2-project:last-child { border-bottom: none; }
+.pt2-project-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; gap: 8px; }
+.pt2-project-name { font-size: 13px; font-weight: 700; color: #1a1a1a; margin: 0; }
+.pt2-project-tech { display: flex; flex-wrap: wrap; gap: 4px; }
+.pt2-tech { background: #f0f0f0; color: #555; font-size: 10px; padding: 2px 8px; border-radius: 4px; }
+.pt2-project-desc { font-size: 12px; color: #666; margin: 0; line-height: 1.5; }
+.pt2-exp { margin-bottom: 14px; }
+.pt2-exp-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px; }
+.pt2-exp-role { font-size: 13px; font-weight: 700; color: #1a1a1a; }
+.pt2-exp-period { font-size: 11px; color: #999; }
+.pt2-exp-company { font-size: 12px; color: #6366f1; margin: 0 0 4px; }
+.pt2-exp-desc { font-size: 12px; color: #666; margin: 0; line-height: 1.5; }
+
+/* ════════════════════════════════════
+   T3 — Vibrant Gradient Creative
+════════════════════════════════════ */
+.pt3 {
+  background: #fff;
+  color: #1a1a1a;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+
+.pt3-hero {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  padding: 50px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+.pt3-hero-content { flex: 1; }
+.pt3-greeting { font-size: 14px; color: rgba(255,255,255,0.7); margin: 0 0 6px; }
+.pt3-name { font-size: 42px; font-weight: 800; color: #fff; margin: 0 0 6px; letter-spacing: -1px; }
+.pt3-title { font-size: 16px; color: rgba(255,255,255,0.85); margin: 0 0 10px; }
+.pt3-tagline { font-size: 13px; color: rgba(255,255,255,0.65); margin: 0 0 24px; max-width: 420px; }
+.pt3-btns { display: flex; gap: 12px; }
+.pt3-btn-primary { padding: 10px 24px; background: #fff; color: #764ba2; border: none; border-radius: 30px; font-size: 13px; font-weight: 700; cursor: pointer; }
+.pt3-btn-ghost { padding: 10px 24px; background: transparent; color: #fff; border: 2px solid rgba(255,255,255,0.5); border-radius: 30px; font-size: 13px; font-weight: 700; cursor: pointer; }
+.pt3-hero-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  border: 4px solid rgba(255,255,255,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.pt3-skills-section { padding: 32px 40px; background: #fafafa; border-bottom: 1px solid #f0f0f0; }
+.pt3-section-title { font-size: 18px; font-weight: 700; color: #1a1a1a; margin: 0 0 16px; }
+.pt3-skills-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.pt3-skill-card {
+  background: #fff;
+  border: 1px solid #e8e8e8;
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.pt3-skill-card:hover { border-color: #764ba2; box-shadow: 0 4px 12px rgba(118,75,162,0.1); }
+.pt3-skill-icon { font-size: 14px; }
+.pt3-skill-name { font-size: 12px; font-weight: 600; color: #333; }
+
+.pt3-projects-section { padding: 32px 40px; }
+.pt3-projects-list { display: flex; flex-direction: column; gap: 14px; }
+.pt3-project-card {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  border-radius: 12px;
+  border-left: 4px solid;
+  background: #fafafa;
+}
+.pt3-project-card-1 { border-color: #667eea; }
+.pt3-project-card-2 { border-color: #f093fb; }
+.pt3-project-card-3 { border-color: #4facfe; }
+.pt3-project-index { font-size: 32px; font-weight: 800; color: #e8e8e8; flex-shrink: 0; line-height: 1; }
+.pt3-project-body { flex: 1; }
+.pt3-project-name { font-size: 15px; font-weight: 700; color: #1a1a1a; margin: 0 0 6px; }
+.pt3-project-desc { font-size: 12px; color: #666; margin: 0 0 10px; line-height: 1.5; }
+.pt3-project-tech { display: flex; flex-wrap: wrap; gap: 6px; }
+.pt3-tech-pill { background: #ede9fe; color: #764ba2; font-size: 10px; padding: 3px 10px; border-radius: 20px; font-weight: 600; }
+
+.pt3-contact-section {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 40px;
+  text-align: center;
+}
+.pt3-contact-title { font-size: 24px; font-weight: 700; color: #fff; margin: 0 0 8px; }
+.pt3-contact-sub { font-size: 14px; color: rgba(255,255,255,0.7); margin: 0 0 20px; }
+.pt3-contact-btn { padding: 12px 32px; background: #fff; color: #764ba2; border: none; border-radius: 30px; font-size: 14px; font-weight: 700; cursor: pointer; }
