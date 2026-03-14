@@ -193,32 +193,161 @@ function PortfolioTemplate3() {
   );
 }
 
-function ScaledModalPreview({ children }) {
-  const wrapRef = useRef(null);
-  const [scale, setScale] = useState(0.72);
-
-  useEffect(() => {
-    const el = wrapRef.current;
-    if (!el) return;
-    const update = () => setScale(el.offsetWidth / 900);
-    update();
-    const ro = new ResizeObserver(update);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
-
+/* ══════════════════════════════════════
+   Template 4 — Navy Executive
+══════════════════════════════════════ */
+function PortfolioTemplate4() {
   return (
-    <div ref={wrapRef} style={{ position: 'relative', width: '100%', height: `${900 * scale}px`, overflow: 'hidden' }}>
-      <div style={{
-        position: 'absolute', top: 0, left: 0,
-        transform: `scale(${scale})`, transformOrigin: 'top left',
-        width: 900,
-      }}>
-        {children}
+    <div className="pt pt4">
+      <div className="pt4-header">
+        <div className="pt4-header-left">
+          <div className="pt4-avatar">AM</div>
+          <div>
+            <h1 className="pt4-name">{pd.name}</h1>
+            <p className="pt4-title">{pd.title}</p>
+            <div className="pt4-contacts">
+              <span>{pd.email}</span><span>·</span><span>{pd.location}</span><span>·</span><span>{pd.github}</span>
+            </div>
+          </div>
+        </div>
+        <nav className="pt4-nav">
+          <span>About</span><span>Work</span><span>Skills</span><span>Contact</span>
+        </nav>
+      </div>
+      <div className="pt4-body">
+        <div className="pt4-left">
+          <div className="pt4-sec-title">About</div>
+          <p className="pt4-text">{pd.about}</p>
+          <div className="pt4-sec-title">Skills</div>
+          <div className="pt4-skills">
+            {pd.skills.map((s, i) => (
+              <div key={i} className="pt4-skill-row">
+                <span className="pt4-skill-name">{s}</span>
+                <div className="pt4-skill-bar"><div className="pt4-skill-fill" style={{ width: `${90 - i * 7}%` }} /></div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="pt4-right">
+          <div className="pt4-sec-title">Experience</div>
+          {pd.experience.map((e, i) => (
+            <div key={i} className="pt4-exp">
+              <div className="pt4-exp-period">{e.period}</div>
+              <strong className="pt4-exp-role">{e.role}</strong>
+              <div className="pt4-exp-company">{e.company}</div>
+              <p className="pt4-text">{e.desc}</p>
+            </div>
+          ))}
+          <div className="pt4-sec-title">Projects</div>
+          {pd.projects.map((p, i) => (
+            <div key={i} className="pt4-project">
+              <strong className="pt4-exp-role">{p.name}</strong>
+              <p className="pt4-text">{p.desc}</p>
+              <div className="pt4-techs">{p.tech.map((t, j) => <span key={j} className="pt4-tech">{t}</span>)}</div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
 }
+
+/* ══════════════════════════════════════
+   Template 5 — Sunset Bold
+══════════════════════════════════════ */
+function PortfolioTemplate5() {
+  return (
+    <div className="pt pt5">
+      <div className="pt5-hero">
+        <div className="pt5-hero-tag">Portfolio</div>
+        <h1 className="pt5-name">{pd.name}</h1>
+        <p className="pt5-role">{pd.title}</p>
+        <div className="pt5-socials">
+          <span className="pt5-social">{pd.github}</span>
+          <span className="pt5-social">{pd.email}</span>
+        </div>
+      </div>
+      <div className="pt5-body">
+        <div className="pt5-about-block">
+          <div className="pt5-block-label">About</div>
+          <p className="pt5-about-text">{pd.about}</p>
+        </div>
+        <div className="pt5-skills-block">
+          <div className="pt5-block-label">Skills</div>
+          <div className="pt5-skills-wrap">
+            {pd.skills.map((s, i) => <span key={i} className="pt5-skill">{s}</span>)}
+          </div>
+        </div>
+        <div className="pt5-projects-block">
+          <div className="pt5-block-label">Work</div>
+          <div className="pt5-projects-grid">
+            {pd.projects.map((p, i) => (
+              <div key={i} className="pt5-project-card">
+                <div className="pt5-project-num">0{i + 1}</div>
+                <h3 className="pt5-project-name">{p.name}</h3>
+                <p className="pt5-project-desc">{p.desc}</p>
+                <div className="pt5-techs">{p.tech.map((t, j) => <span key={j} className="pt5-tech">{t}</span>)}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════
+   Template 6 — Glass Dark
+══════════════════════════════════════ */
+function PortfolioTemplate6() {
+  return (
+    <div className="pt pt6">
+      <div className="pt6-bg" />
+      <div className="pt6-content">
+        <div className="pt6-hero">
+          <div className="pt6-avatar">AM</div>
+          <div className="pt6-hero-text">
+            <h1 className="pt6-name">{pd.name}</h1>
+            <p className="pt6-title">{pd.title}</p>
+            <p className="pt6-tagline">{pd.tagline}</p>
+            <div className="pt6-btns">
+              <button className="pt6-btn-primary">View Work</button>
+              <button className="pt6-btn-ghost">Contact Me</button>
+            </div>
+          </div>
+        </div>
+        <div className="pt6-cards-row">
+          {pd.skills.slice(0, 4).map((s, i) => (
+            <div key={i} className="pt6-skill-card"><span className="pt6-skill-icon">◈</span>{s}</div>
+          ))}
+        </div>
+        <div className="pt6-projects">
+          <h2 className="pt6-sec-title">Featured Projects</h2>
+          <div className="pt6-projects-grid">
+            {pd.projects.map((p, i) => (
+              <div key={i} className="pt6-project-card">
+                <div className="pt6-project-glow" />
+                <h3 className="pt6-project-name">{p.name}</h3>
+                <p className="pt6-project-desc">{p.desc}</p>
+                <div className="pt6-techs">{p.tech.map((t, j) => <span key={j} className="pt6-tech">{t}</span>)}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="pt6-footer">
+          <span>{pd.email}</span><span>·</span><span>{pd.github}</span><span>·</span><span>{pd.location}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+function ScaledModalPreview({ children }) {
+  return (
+    <div style={{ width: '100%', overflowY: 'auto', overflowX: 'hidden' }}>
+      {children}
+    </div>
+  );
+} 
 
 /* ══════════════════════════════════════
    Scaled preview — fills container width, clips height
@@ -254,30 +383,12 @@ function ScaledPortfolioPreview({ children }) {
    Template definitions
 ══════════════════════════════════════ */
 const portfolioTemplates = [
-  {
-    id: 1,
-    name: 'Dark Hacker',
-    tag: 'Developer',
-    description: 'Terminal-inspired dark theme with green accents. Perfect for developers who want to stand out.',
-    component: <PortfolioTemplate1 />,
-    recommended: true,
-  },
-  {
-    id: 2,
-    name: 'Clean Minimal',
-    tag: 'Professional',
-    description: 'Clean two-column layout with a light sidebar. Elegant and easy to read.',
-    component: <PortfolioTemplate2 />,
-    recommended: false,
-  },
-  {
-    id: 3,
-    name: 'Vibrant Creative',
-    tag: 'Creative',
-    description: 'Bold gradient hero with colorful project cards. Great for designers and creatives.',
-    component: <PortfolioTemplate3 />,
-    recommended: false,
-  },
+  { id: 1, name: 'Dark Hacker',     tag: 'Developer',    component: <PortfolioTemplate1 />, recommended: true  },
+  { id: 2, name: 'Clean Minimal',   tag: 'Professional', component: <PortfolioTemplate2 />, recommended: false },
+  { id: 3, name: 'Vibrant Creative',tag: 'Creative',     component: <PortfolioTemplate3 />, recommended: false },
+  { id: 4, name: 'Navy Executive',  tag: 'Corporate',    component: <PortfolioTemplate4 />, recommended: false },
+  { id: 5, name: 'Sunset Bold',     tag: 'Bold',         component: <PortfolioTemplate5 />, recommended: false },
+  { id: 6, name: 'Glass Dark',      tag: 'Modern',       component: <PortfolioTemplate6 />, recommended: true  },
 ];
 
 /* ══════════════════════════════════════
@@ -345,39 +456,35 @@ function Portfolio() {
             <p className="page-subtitle">Choose a template to showcase your work and skills</p>
           </div>
 
-          <div className="pf-templates-list">
+          <div className="pf-grid">
             {portfolioTemplates.map((tpl) => (
-              <div key={tpl.id} className={`pf-row ${selectedTemplate === tpl.id ? 'pf-row-selected' : ''}`}>
-                {/* Left: info panel */}
-                <div className="pf-row-info">
-                  {tpl.recommended && <span className="pf-badge">Recommended</span>}
-                  <span className="pf-tag">{tpl.tag}</span>
-                  <h3 className="pf-tpl-name">{tpl.name}</h3>
-                  <p className="pf-tpl-desc">{tpl.description}</p>
-                  <div className="pf-row-actions">
-                    <button
-                      className="pf-btn-preview"
-                      onClick={() => setPreviewTemplate(tpl)}
-                    >
-                      Preview
-                    </button>
-                    <button
-                      className={`pf-btn-select ${selectedTemplate === tpl.id ? 'pf-btn-selected' : ''}`}
-                      onClick={() => setSelectedTemplate(tpl.id)}
-                    >
-                      {selectedTemplate === tpl.id ? '✓ Selected' : 'Use Template'}
-                    </button>
+              <div
+                key={tpl.id}
+                className={`pf-card ${selectedTemplate === tpl.id ? 'pf-card-selected' : ''}`}
+                onClick={() => setPreviewTemplate(tpl)}
+              >
+                {tpl.recommended && <span className="pf-badge">Recommended</span>}
+
+                {/* Full template preview */}
+                <div className="pf-card-preview">
+                  <ScaledPortfolioPreview>{tpl.component}</ScaledPortfolioPreview>
+                  <div className="pf-card-overlay">
+                    <span className="pf-preview-hint">Click to preview</span>
                   </div>
                 </div>
 
-                {/* Right: scaled preview */}
-                <div className="pf-row-preview" onClick={() => setPreviewTemplate(tpl)}>
-                  <ScaledPortfolioPreview>
-                    {tpl.component}
-                  </ScaledPortfolioPreview>
-                  <div className="pf-preview-overlay">
-                    <span className="pf-preview-hint">Click to preview</span>
+                {/* Footer info */}
+                <div className="pf-card-footer">
+                  <div className="pf-card-meta">
+                    <span className="pf-tag">{tpl.tag}</span>
+                    <span className="pf-tpl-name">{tpl.name}</span>
                   </div>
+                  <button
+                    className={`pf-btn-select ${selectedTemplate === tpl.id ? 'pf-btn-selected' : ''}`}
+                    onClick={e => { e.stopPropagation(); setSelectedTemplate(tpl.id); }}
+                  >
+                    {selectedTemplate === tpl.id ? '✓ Selected' : 'Use Template'}
+                  </button>
                 </div>
               </div>
             ))}

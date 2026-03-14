@@ -5,7 +5,91 @@
   gap: 1.25rem;
 }
 
-/* ── Each template row ── */
+/* ── 2-column card grid ── */
+.pf-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+/* ── Card ── */
+.pf-card {
+  background: #1a1a1a;
+  border: 2px solid #2d2d2d;
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+  display: flex;
+  flex-direction: column;
+}
+.pf-card:hover { border-color: #ffa116; box-shadow: 0 8px 28px rgba(255,161,22,0.18); transform: translateY(-2px); }
+.pf-card-selected { border-color: #ffa116 !important; box-shadow: 0 8px 28px rgba(255,161,22,0.28) !important; }
+
+/* preview area — fixed height, template scales to fill */
+.pf-card-preview {
+  position: relative;
+  height: 300px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.pf-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.pf-card:hover .pf-card-overlay { background: rgba(0,0,0,0.3); }
+
+.pf-preview-hint {
+  opacity: 0;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: rgba(0,0,0,0.65);
+  padding: 0.45rem 1.1rem;
+  border-radius: 30px;
+  transition: opacity 0.2s;
+}
+.pf-card:hover .pf-preview-hint { opacity: 1; }
+
+/* footer strip */
+.pf-card-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem 0.9rem;
+  border-top: 1px solid #2d2d2d;
+}
+
+.pf-card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pf-btn-select {
+  display: block;
+  width: 100%;
+  padding: 0.6rem;
+  background: #2d2d2d;
+  border: 1px solid #3d3d3d;
+  border-radius: 30px;
+  color: #aaa;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.pf-btn-select:hover { background: #ffa116; color: #1a1a1a; border-color: #ffa116; }
+.pf-btn-selected { background: #ffa116 !important; color: #1a1a1a !important; border-color: #ffa116 !important; }
+
+/* Each template row (old — kept for reference, unused) */
 .pf-row {
   display: flex;
   background: #1a1a1a;
@@ -89,21 +173,6 @@
 }
 .pf-btn-preview:hover { border-color: #ffa116; color: #ffa116; }
 
-.pf-btn-select {
-  flex: 1;
-  padding: 0.4rem 0.6rem;
-  background: #2d2d2d;
-  border: 1px solid #3d3d3d;
-  border-radius: 30px;
-  color: #aaa;
-  font-size: 0.78rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
-}
-.pf-btn-select:hover { background: #ffa116; color: #1a1a1a; border-color: #ffa116; }
-.pf-btn-selected { background: #ffa116 !important; color: #1a1a1a !important; border-color: #ffa116 !important; }
-
 /* ── Right preview panel ── */
 .pf-row-preview {
   flex: 1;
@@ -152,9 +221,9 @@
   background: #1a1a1a;
   border: 1px solid #2d2d2d;
   border-radius: 16px;
-  width: 90vw;
-  max-width: 960px;
-  max-height: 92vh;
+  width: 95vw;
+  max-width: 1000px;
+  height: 92vh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -202,9 +271,17 @@
 .pf-modal-body {
   flex: 1;
   overflow-y: auto;
-  background: #fff;
-  position: relative;
-  min-height: 560px;
+  overflow-x: hidden;
+  background: transparent;
+  width: 100%;
+}
+
+.pt {
+  width: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 /* modal scale-wrap: absolute so scroll works on the container, not the scaled div */
@@ -223,12 +300,6 @@
 /* ════════════════════════════════════
    SHARED PORTFOLIO TEMPLATE BASE
 ════════════════════════════════════ */
-.pt {
-  width: 900px;
-  box-sizing: border-box;
-  font-size: 14px;
-  line-height: 1.6;
-}
 
 /* ════════════════════════════════════
    T1 — Dark Hacker Theme
@@ -463,3 +534,201 @@
 .pt3-contact-title { font-size: 24px; font-weight: 700; color: #fff; margin: 0 0 8px; }
 .pt3-contact-sub { font-size: 14px; color: rgba(255,255,255,0.7); margin: 0 0 20px; }
 .pt3-contact-btn { padding: 12px 32px; background: #fff; color: #764ba2; border: none; border-radius: 30px; font-size: 14px; font-weight: 700; cursor: pointer; }
+
+/* ════════════════════════════════════
+   T4 — Navy Executive
+════════════════════════════════════ */
+.pt4 {
+  background: #0f172a;
+  color: #e2e8f0;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+.pt4-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 40px;
+  background: #1e293b;
+  border-bottom: 1px solid #334155;
+}
+.pt4-header-left { display: flex; align-items: center; gap: 18px; }
+.pt4-avatar {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  color: #fff; font-size: 20px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.pt4-name { font-size: 22px; font-weight: 800; color: #f1f5f9; margin: 0 0 3px; }
+.pt4-title { font-size: 12px; color: #60a5fa; margin: 0 0 6px; text-transform: uppercase; letter-spacing: 1px; }
+.pt4-contacts { display: flex; gap: 8px; font-size: 10px; color: #64748b; flex-wrap: wrap; }
+.pt4-nav { display: flex; gap: 20px; }
+.pt4-nav span { font-size: 12px; color: #94a3b8; cursor: pointer; }
+.pt4-nav span:hover { color: #60a5fa; }
+.pt4-body { display: flex; gap: 0; }
+.pt4-left { width: 280px; flex-shrink: 0; padding: 28px 24px; border-right: 1px solid #1e293b; }
+.pt4-right { flex: 1; padding: 28px 28px; }
+.pt4-sec-title {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 2px; color: #3b82f6;
+  border-bottom: 1px solid #1e293b; padding-bottom: 6px; margin: 0 0 12px;
+}
+.pt4-sec-title + .pt4-sec-title, .pt4-exp + .pt4-sec-title, .pt4-project + .pt4-sec-title { margin-top: 20px; }
+.pt4-text { font-size: 11px; color: #94a3b8; line-height: 1.6; margin: 0 0 4px; }
+.pt4-skill-row { margin-bottom: 7px; }
+.pt4-skill-name { font-size: 11px; color: #cbd5e1; display: block; margin-bottom: 3px; }
+.pt4-skill-bar { height: 3px; background: #1e293b; border-radius: 2px; }
+.pt4-skill-fill { height: 100%; background: linear-gradient(90deg, #3b82f6, #60a5fa); border-radius: 2px; }
+.pt4-exp { margin-bottom: 14px; }
+.pt4-exp-period { font-size: 10px; color: #3b82f6; font-weight: 700; margin-bottom: 2px; }
+.pt4-exp-role { font-size: 12px; font-weight: 700; color: #f1f5f9; display: block; margin-bottom: 1px; }
+.pt4-exp-company { font-size: 11px; color: #64748b; margin-bottom: 4px; }
+.pt4-project { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid #1e293b; }
+.pt4-project:last-child { border-bottom: none; }
+.pt4-techs { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+.pt4-tech { background: #1e3a5f; color: #60a5fa; font-size: 10px; padding: 2px 8px; border-radius: 4px; }
+
+/* ════════════════════════════════════
+   T5 — Sunset Bold
+════════════════════════════════════ */
+.pt5 {
+  background: #fff;
+  color: #1a1a1a;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+.pt5-hero {
+  background: linear-gradient(135deg, #f97316 0%, #ef4444 50%, #ec4899 100%);
+  padding: 48px 48px 40px;
+}
+.pt5-hero-tag {
+  display: inline-block;
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  font-size: 10px; font-weight: 700;
+  padding: 3px 12px; border-radius: 20px;
+  letter-spacing: 2px; text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.pt5-name { font-size: 52px; font-weight: 900; color: #fff; margin: 0 0 6px; letter-spacing: -2px; line-height: 1; }
+.pt5-role { font-size: 16px; color: rgba(255,255,255,0.8); margin: 0 0 16px; }
+.pt5-socials { display: flex; gap: 16px; }
+.pt5-social { font-size: 11px; color: rgba(255,255,255,0.65); }
+.pt5-body { padding: 32px 48px; display: flex; flex-direction: column; gap: 28px; }
+.pt5-block-label {
+  font-size: 10px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 3px; color: #f97316;
+  margin-bottom: 12px;
+}
+.pt5-about-text { font-size: 13px; color: #444; line-height: 1.7; margin: 0; }
+.pt5-skills-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
+.pt5-skill {
+  background: #fff5f0; color: #f97316;
+  border: 1px solid #fed7aa;
+  font-size: 11px; font-weight: 600;
+  padding: 4px 14px; border-radius: 20px;
+}
+.pt5-projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.pt5-project-card {
+  background: #fafafa; border: 1px solid #f0f0f0;
+  border-radius: 10px; padding: 16px;
+  border-top: 3px solid #f97316;
+}
+.pt5-project-num { font-size: 24px; font-weight: 900; color: #fed7aa; margin-bottom: 6px; line-height: 1; }
+.pt5-project-name { font-size: 13px; font-weight: 700; color: #1a1a1a; margin: 0 0 6px; }
+.pt5-project-desc { font-size: 11px; color: #666; margin: 0 0 10px; line-height: 1.5; }
+.pt5-techs { display: flex; flex-wrap: wrap; gap: 5px; }
+.pt5-tech { background: #fff5f0; color: #f97316; font-size: 10px; padding: 2px 8px; border-radius: 4px; font-weight: 600; }
+
+/* ════════════════════════════════════
+   T6 — Glass Dark
+════════════════════════════════════ */
+.pt6 {
+  background: #09090b;
+  color: #e4e4e7;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+.pt6-bg {
+  position: absolute;
+  top: -200px; left: -200px;
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(139,92,246,0.25) 0%, transparent 70%);
+  pointer-events: none;
+}
+.pt6-content { position: relative; z-index: 1; }
+.pt6-hero {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 48px 48px 36px;
+}
+.pt6-avatar {
+  width: 100px; height: 100px; border-radius: 50%;
+  background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+  color: #fff; font-size: 28px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 0 40px rgba(139,92,246,0.4);
+}
+.pt6-hero-text { flex: 1; }
+.pt6-name { font-size: 40px; font-weight: 800; color: #fff; margin: 0 0 6px; letter-spacing: -1px; }
+.pt6-title { font-size: 14px; color: #a78bfa; margin: 0 0 8px; }
+.pt6-tagline { font-size: 13px; color: #71717a; margin: 0 0 20px; }
+.pt6-btns { display: flex; gap: 12px; }
+.pt6-btn-primary {
+  padding: 10px 24px; background: #8b5cf6; color: #fff;
+  border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer;
+}
+.pt6-btn-ghost {
+  padding: 10px 24px; background: rgba(139,92,246,0.1); color: #a78bfa;
+  border: 1px solid rgba(139,92,246,0.3); border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer;
+}
+.pt6-cards-row {
+  display: flex; gap: 12px;
+  padding: 0 48px 28px;
+}
+.pt6-skill-card {
+  flex: 1;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 12px; color: #a78bfa; font-weight: 600;
+  display: flex; align-items: center; gap: 8px;
+  backdrop-filter: blur(8px);
+}
+.pt6-skill-icon { font-size: 14px; }
+.pt6-projects { padding: 0 48px 32px; }
+.pt6-sec-title {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 2px; color: #8b5cf6;
+  margin: 0 0 16px;
+}
+.pt6-projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.pt6-project-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px; padding: 18px;
+  position: relative; overflow: hidden;
+  backdrop-filter: blur(8px);
+}
+.pt6-project-glow {
+  position: absolute; top: -30px; right: -30px;
+  width: 80px; height: 80px;
+  background: radial-gradient(circle, rgba(139,92,246,0.3), transparent 70%);
+  pointer-events: none;
+}
+.pt6-project-name { font-size: 13px; font-weight: 700; color: #f4f4f5; margin: 0 0 6px; }
+.pt6-project-desc { font-size: 11px; color: #71717a; margin: 0 0 10px; line-height: 1.5; }
+.pt6-techs { display: flex; flex-wrap: wrap; gap: 5px; }
+.pt6-tech {
+  background: rgba(139,92,246,0.15); color: #a78bfa;
+  font-size: 10px; padding: 2px 8px; border-radius: 4px; font-weight: 600;
+}
+.pt6-footer {
+  display: flex; gap: 10px; align-items: center;
+  padding: 16px 48px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  font-size: 11px; color: #52525b;
+}
