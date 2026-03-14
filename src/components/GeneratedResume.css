@@ -1,0 +1,121 @@
+/* Generated Resume Output Wrapper */
+.gr-output {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255,215,0,0.15);
+}
+
+.gr-output-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.gr-output-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffd700;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+.gr-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.gr-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s;
+  border: none;
+}
+
+.gr-btn-download {
+  background: #ffd700;
+  color: #1a1a1a;
+}
+
+.gr-btn-download:hover {
+  background: #ffed4e;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255,215,0,0.4);
+}
+
+.gr-btn-regenerate {
+  background: rgba(255,255,255,0.06);
+  color: #ccc;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.gr-btn-regenerate:hover {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+}
+
+/* Resume paper container */
+.gr-paper-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 8px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+}
+
+.gr-paper {
+  width: 794px;
+  min-height: 1123px;
+  background: #fff;
+  margin: 0 auto;
+  transform-origin: top left;
+}
+
+/* Loading state */
+.gr-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  gap: 1rem;
+}
+
+.gr-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255,215,0,0.2);
+  border-top-color: #ffd700;
+  border-radius: 50%;
+  animation: grSpin 0.8s linear infinite;
+}
+
+@keyframes grSpin {
+  to { transform: rotate(360deg); }
+}
+
+.gr-loading-text {
+  color: #888;
+  font-size: 0.95rem;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Error state */
+.gr-error {
+  padding: 1.5rem;
+  background: rgba(220,38,38,0.08);
+  border: 1px solid rgba(220,38,38,0.25);
+  border-radius: 10px;
+  color: #ff6b6b;
+  font-size: 0.9rem;
+  font-family: 'Inter', sans-serif;
+  margin-top: 1rem;
+}

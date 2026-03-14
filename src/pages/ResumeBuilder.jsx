@@ -1,11 +1,15 @@
 import { useState, useRef } from 'react';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 import { useNavigate } from 'react-router-dom';
-import { User, Menu, Plus, X, Send, FileText, Image } from 'lucide-react';
+import { User, Menu, Plus, X, Send, FileText, Image, Download, RefreshCw } from 'lucide-react';
 import ProfileSummaryCard from '../components/ProfileSummaryCard';
 import Sidebar from '../components/Sidebar';
 import TemplatePickerCard from '../components/TemplatePickerCard';
+import GeneratedResume from '../components/GeneratedResume';
 import './Dashboard.css';
 import './ResumeBuilder.css';
+import '../components/GeneratedResume.css';
 
 function ResumeBuilder() {
   const navigate = useNavigate();
@@ -14,8 +18,12 @@ function ResumeBuilder() {
   const [prompt, setPrompt] = useState('');
   const [files, setFiles] = useState([]);
   const [showUploadMenu, setShowUploadMenu] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [resumeData, setResumeData] = useState(null);
   const fileInputRef = useRef(null);
   const docInputRef = useRef(null);
+  const resumeRef = useRef(null);
 
   const handleLogout = () => navigate('/');
   const toggleProfileCard = () => setShowProfileCard(!showProfileCard);
@@ -29,9 +37,45 @@ function ResumeBuilder() {
 
   const removeFile = (idx) => setFiles(prev => prev.filter((_, i) => i !== idx));
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!prompt.trim() && files.length === 0) return;
-    console.log('Prompt:', prompt, 'Files:', files);
+    if (!selectedTemplate) {
+      setError('Please select a template first.');
+      return;
+    }
+    setError('');
+    setLoading(true);
+    setResumeData(null);
+    try {
+      const res = await fetch('http://localhost:5000/api/ai/generate-resume', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt, templateId: selectedTemplate }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to generate resume');
+      setResumeData(data.resumeData);
+      setTimeout(() => resumeRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDownload = async () => {
+    const el = document.getElementById('gr-resume-paper');
+    if (!el) return;
+    const canvas = await html2canvas(el, { scale: 2, useCORS: true });
+    const imgData = canvas.toDataURL('image/png');
+    const pdf = new jsPDF({ orientation: 'portrait', unit: 'px', format: 'a4' });
+    const pageW = pdf.internal.pageSize.getWidth();
+    const pageH = pdf.internal.pageSize.getHeight();
+    const imgW = canvas.width;
+    const imgH = canvas.height;
+    const ratio = Math.min(pageW / imgW, pageH / imgH);
+    pdf.addImage(imgData, 'PNG', 0, 0, imgW * ratio, imgH * ratio);
+    pdf.save(`${resumeData?.name?.replace(/\s+/g, '_') || 'resume'}.pdf`);
   };
 
   return (
@@ -63,9 +107,7 @@ function ResumeBuilder() {
               name="Abhishek John"
               role="Full Stack Developer"
               profileImage="https://ui-avatars.com/api/?name=Abhishek+John&size=200&background=667eea&color=fff&bold=true"
-              resumeScore={78}
-              leaderboardRank={24}
-              totalPoints={1240}
+              resumeScore={78} leaderboardRank={24} totalPoints={1240}
             />
           </div>
         </>
@@ -81,21 +123,16 @@ function ResumeBuilder() {
           </div>
 
           <div className="resume-builder-content">
-            <TemplatePickerCard
-              selected={selectedTemplate}
-              onSelect={setSelectedTemplate}
-            />
+            <TemplatePickerCard selected={selectedTemplate} onSelect={setSelectedTemplate} />
 
             {/* ── AI Prompt Box ── */}
             <div className="rb-prompt-section">
               <h3 className="rb-prompt-title">Describe your resume or upload your existing one</h3>
               <p className="rb-prompt-sub">Tell the AI about your experience, skills, and the job you're targeting — or upload a file to get started.</p>
 
-              {/* Hidden file inputs */}
               <input ref={fileInputRef} type="file" accept=".jpg,.jpeg,.png,.gif,.webp" multiple style={{ display: 'none' }} onChange={handleFileChange} />
               <input ref={docInputRef} type="file" accept=".pdf,.doc,.docx,.txt" multiple style={{ display: 'none' }} onChange={handleFileChange} />
 
-              {/* File chips above bar */}
               {files.length > 0 && (
                 <div className="rb-file-chips">
                   {files.map((f, i) => (
@@ -108,7 +145,10 @@ function ResumeBuilder() {
                 </div>
               )}
 
-              {/* Pill bar */}
+              {!selectedTemplate && (
+                <p className="rb-no-template-warn">⚠ Please select a template above before generating.</p>
+              )}
+
               <div className={`rb-bar${prompt.trim() || files.length ? ' rb-bar-active' : ''}`}>
                 <div className="rb-plus-wrap">
                   <button className="rb-plus-btn" onClick={() => setShowUploadMenu(v => !v)}>
@@ -117,21 +157,17 @@ function ResumeBuilder() {
                   {showUploadMenu && (
                     <div className="rb-upload-menu">
                       <button className="rb-upload-option" onClick={() => fileInputRef.current.click()}>
-                        <Image size={16} />
-                        <span>Upload Image</span>
-                        <span className="rb-upload-hint">JPG, PNG</span>
+                        <Image size={16} /><span>Upload Image</span><span className="rb-upload-hint">JPG, PNG</span>
                       </button>
                       <button className="rb-upload-option" onClick={() => docInputRef.current.click()}>
-                        <FileText size={16} />
-                        <span>Upload Document</span>
-                        <span className="rb-upload-hint">PDF, DOCX</span>
+                        <FileText size={16} /><span>Upload Document</span><span className="rb-upload-hint">PDF, DOCX</span>
                       </button>
                     </div>
                   )}
                 </div>
                 <textarea
                   className="rb-input"
-                  placeholder="Describe your experience, skills, or the job you're targeting..."
+                  placeholder="e.g. My name is John, I'm a Full Stack Developer with 3 years experience in React and Node.js..."
                   value={prompt}
                   rows={1}
                   onChange={e => {
@@ -145,14 +181,46 @@ function ResumeBuilder() {
                   onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSubmit(); } }}
                 />
                 <button
-                  className={`rb-send-btn${prompt.trim() || files.length ? ' rb-send-active' : ''}`}
+                  className={`rb-send-btn${(prompt.trim() || files.length) && !loading ? ' rb-send-active' : ''}`}
                   onClick={handleSubmit}
-                  disabled={!prompt.trim() && files.length === 0}
+                  disabled={loading || (!prompt.trim() && files.length === 0)}
                 >
-                  <Send size={16} />
+                  {loading ? <span className="rb-spinner" /> : <Send size={16} />}
                 </button>
               </div>
+
+              {error && <div className="gr-error">{error}</div>}
             </div>
+
+            {/* ── Loading ── */}
+            {loading && (
+              <div className="gr-loading">
+                <div className="gr-spinner" />
+                <p className="gr-loading-text">Generating your resume with AI...</p>
+              </div>
+            )}
+
+            {/* ── Generated Resume Output ── */}
+            {resumeData && !loading && (
+              <div className="gr-output" ref={resumeRef}>
+                <div className="gr-output-header">
+                  <h3 className="gr-output-title">Your Generated Resume</h3>
+                  <div className="gr-actions">
+                    <button className="gr-btn gr-btn-regenerate" onClick={handleSubmit}>
+                      <RefreshCw size={14} /> Regenerate
+                    </button>
+                    <button className="gr-btn gr-btn-download" onClick={handleDownload}>
+                      <Download size={14} /> Download
+                    </button>
+                  </div>
+                </div>
+                <div className="gr-paper-wrap">
+                  <div id="gr-resume-paper" className="gr-paper">
+                    <GeneratedResume data={resumeData} templateId={selectedTemplate} />
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </main>
       </div>

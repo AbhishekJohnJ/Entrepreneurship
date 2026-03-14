@@ -258,3 +258,68 @@ app.post('/api/ai/analyze-skills', async (req, res) => {
     res.status(500).json({ error: 'Failed to analyze skills' });
   }
 });
+
+// Generate resume data from prompt
+app.post('/api/ai/generate-resume', async (req, res) => {
+  try {
+    const { prompt, templateId } = req.body;
+    if (!prompt) return res.status(400).json({ error: 'Prompt is required' });
+
+    const apiKey = process.env.AI_API_KEY;
+    const url = 'https://openrouter.ai/api/v1/chat/completions';
+
+    const systemPrompt = `You are a professional resume writer. Based on the user's description, extract and generate structured resume data as a JSON object. 
+Return ONLY valid JSON with this exact structure (no markdown, no explanation):
+{
+  "name": "Full Name",
+  "initials": "AB",
+  "title": "Job Title",
+  "email": "email@example.com",
+  "phone": "+1 (555) 000-0000",
+  "location": "City, Country",
+  "linkedin": "linkedin.com/in/username",
+  "website": "www.website.com",
+  "summary": "2-3 sentence professional summary",
+  "skills": ["Skill 1", "Skill 2", "Skill 3", "Skill 4", "Skill 5", "Skill 6"],
+  "experience": [
+    { "role": "Job Title", "company": "Company Name", "period": "2020 – 2024", "desc": "Achievement-focused description." }
+  ],
+  "education": [
+    { "degree": "Degree Name", "school": "University Name", "year": "2020" }
+  ],
+  "languages": ["English – Native", "Spanish – Intermediate"],
+  "awards": ["Award 1", "Award 2"]
+}
+If any field is not mentioned, make a reasonable professional inference. Always return valid JSON only.`;
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        model: 'deepseek/deepseek-chat',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: `User description: ${prompt}` }
+        ],
+        temperature: 0.7,
+        max_tokens: 2048
+      })
+    });
+
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error?.message || 'AI API error');
+
+    const raw = data.choices?.[0]?.message?.content || '';
+    // Strip markdown code fences if present
+    const cleaned = raw.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+    const resumeData = JSON.parse(cleaned);
+
+    res.json({ resumeData });
+  } catch (error) {
+    console.error('Generate resume error:', error);
+    res.status(500).json({ error: 'Failed to generate resume: ' + error.message });
+  }
+});

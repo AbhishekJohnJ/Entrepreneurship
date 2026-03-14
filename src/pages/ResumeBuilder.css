@@ -260,3 +260,25 @@
   .resume-builder-content { padding: 0.5rem 0; }
   .rb-input { font-size: 0.85rem; }
 }
+
+/* No template warning */
+.rb-no-template-warn {
+  font-size: 0.82rem;
+  color: #f59e0b;
+  margin: 0 0 0.75rem;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Send button spinner */
+.rb-spinner {
+  width: 16px; height: 16px;
+  border: 2px solid rgba(255,255,255,0.2);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: rbSpin 0.7s linear infinite;
+  display: inline-block;
+}
+
+@keyframes rbSpin {
+  to { transform: rotate(360deg); }
+}
