@@ -22,7 +22,7 @@ function Sidebar() {
     { name: 'Resume Builder', icon: FileText, path: '/resume-builder' },
     { name: 'Portfolio', icon: Briefcase, path: '/portfolio' },
     { name: 'My Resumes', icon: CheckSquare, path: '/my-resumes' },
-    { name: 'My Portfolios', icon: Trophy, path: '/leaderboard' },
+    { name: 'My Portfolios', icon: Trophy, path: '/my-portfolios' },
     { name: 'Settings', icon: Settings, path: '/settings' }
   ];
 

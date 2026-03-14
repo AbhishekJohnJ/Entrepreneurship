@@ -51,6 +51,16 @@ const resumeSchema = new mongoose.Schema({
 
 const Resume = mongoose.model('Resume', resumeSchema);
 
+// Portfolio Schema
+const portfolioSchema = new mongoose.Schema({
+  userId: { type: String, required: true },
+  templateId: { type: Number, required: true },
+  data: { type: Object, required: true },
+  createdAt: { type: Date, default: Date.now }
+});
+
+const Portfolio = mongoose.model('Portfolio', portfolioSchema);
+
 // Routes
 
 // Health check
@@ -186,6 +196,41 @@ app.delete('/api/resumes/:id', async (req, res) => {
     res.json({ message: 'Deleted' });
   } catch (error) {
     res.status(500).json({ error: 'Failed to delete resume' });
+  }
+});
+
+// Save portfolio
+app.post('/api/portfolios', async (req, res) => {
+  try {
+    const { userId, templateId, data } = req.body;
+    if (!userId || !templateId || !data) return res.status(400).json({ error: 'Missing fields' });
+    const portfolio = new Portfolio({ userId, templateId, data });
+    await portfolio.save();
+    res.status(201).json(portfolio);
+  } catch (error) {
+    console.error('Save portfolio error:', error);
+    res.status(500).json({ error: 'Failed to save portfolio' });
+  }
+});
+
+// Get portfolios by user
+app.get('/api/portfolios/:userId', async (req, res) => {
+  try {
+    const portfolios = await Portfolio.find({ userId: req.params.userId }).sort({ createdAt: -1 });
+    res.json(portfolios);
+  } catch (error) {
+    console.error('Get portfolios error:', error);
+    res.status(500).json({ error: 'Failed to fetch portfolios' });
+  }
+});
+
+// Delete portfolio
+app.delete('/api/portfolios/:id', async (req, res) => {
+  try {
+    await Portfolio.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Deleted' });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to delete portfolio' });
   }
 });
 

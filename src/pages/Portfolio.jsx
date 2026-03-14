@@ -451,6 +451,17 @@ function Portfolio() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed to generate portfolio');
       setPortfolioData(data.portfolioData);
+
+      // Save to database
+      const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+      if (user?.id) {
+        await fetch('http://localhost:5000/api/portfolios', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId: user.id, templateId: selectedTemplate, data: data.portfolioData }),
+        });
+      }
+
       setTimeout(() => outputRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
     } catch (err) {
       setError(err.message);
