@@ -3,7 +3,66 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const path = require('path');
+const multer = require('multer');
+const pdfParse = require('pdf-parse');
+const mammoth = require('mammoth');
+const XLSX = require('xlsx');
+const { createWorker } = require('tesseract.js');
 require('dotenv').config({ path: path.join(__dirname, '.env') });
+
+// Multer: store files in memory
+const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 10 * 1024 * 1024 } });
+
+// Extract text from uploaded file buffer
+async function extractTextFromFile(file) {
+  const { mimetype, originalname, buffer } = file;
+  const ext = path.extname(originalname).toLowerCase();
+
+  // PDF
+  if (mimetype === 'application/pdf' || ext === '.pdf') {
+    const result = await pdfParse(buffer);
+    return result.text;
+  }
+
+  // Word DOCX
+  if (mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || ext === '.docx') {
+    const result = await mammoth.extractRawText({ buffer });
+    return result.value;
+  }
+
+  // Legacy DOC - return filename hint
+  if (ext === '.doc') {
+    return `[DOC file: ${originalname} - content extraction limited for legacy .doc format]`;
+  }
+
+  // Excel XLSX / XLS / CSV
+  if (ext === '.xlsx' || ext === '.xls' || ext === '.csv' ||
+      mimetype === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+      mimetype === 'application/vnd.ms-excel') {
+    const workbook = XLSX.read(buffer, { type: 'buffer' });
+    let text = '';
+    workbook.SheetNames.forEach(name => {
+      const sheet = workbook.Sheets[name];
+      text += `Sheet: ${name}\n` + XLSX.utils.sheet_to_csv(sheet) + '\n';
+    });
+    return text;
+  }
+
+  // Images - OCR
+  if (mimetype.startsWith('image/')) {
+    const worker = await createWorker('eng');
+    const { data: { text } } = await worker.recognize(buffer);
+    await worker.terminate();
+    return text;
+  }
+
+  // Plain text
+  if (mimetype === 'text/plain' || ext === '.txt') {
+    return buffer.toString('utf-8');
+  }
+
+  return '';
+}
 
 const app = express();
 
@@ -417,11 +476,28 @@ If any field is not mentioned, make a reasonable professional inference. Always 
   }
 });
 
-// Generate resume data from prompt
-app.post('/api/ai/generate-resume', async (req, res) => {
+// Generate resume data from prompt (supports file attachments)
+app.post('/api/ai/generate-resume', upload.array('files', 5), async (req, res) => {
   try {
     const { prompt, templateId } = req.body;
-    if (!prompt) return res.status(400).json({ error: 'Prompt is required' });
+    const uploadedFiles = req.files || [];
+
+    if (!prompt && uploadedFiles.length === 0) {
+      return res.status(400).json({ error: 'Prompt or at least one file is required' });
+    }
+
+    // Extract text from all uploaded files
+    let extractedContent = '';
+    if (uploadedFiles.length > 0) {
+      const extractions = await Promise.all(uploadedFiles.map(f => extractTextFromFile(f)));
+      extractedContent = extractions.filter(Boolean).join('\n\n');
+    }
+
+    // Build the user message combining prompt + extracted file content
+    let userMessage = '';
+    if (prompt) userMessage += `User description: ${prompt}\n\n`;
+    if (extractedContent) userMessage += `Extracted content from uploaded file(s):\n${extractedContent}`;
+    userMessage = userMessage.trim();
 
     const apiKey = process.env.AI_API_KEY;
     const url = 'https://openrouter.ai/api/v1/chat/completions';
@@ -460,7 +536,7 @@ If any field is not mentioned, make a reasonable professional inference. Always 
         model: 'deepseek/deepseek-chat',
         messages: [
           { role: 'system', content: systemPrompt },
-          { role: 'user', content: `User description: ${prompt}` }
+          { role: 'user', content: userMessage }
         ],
         temperature: 0.7,
         max_tokens: 2048
@@ -475,7 +551,7 @@ If any field is not mentioned, make a reasonable professional inference. Always 
     const cleaned = raw.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
     const resumeData = JSON.parse(cleaned);
 
-    res.json({ resumeData });
+    res.json({ resumeData, filesProcessed: uploadedFiles.length });
   } catch (error) {
     console.error('Generate resume error:', error);
     res.status(500).json({ error: 'Failed to generate resume: ' + error.message });

@@ -577,9 +577,7 @@ function Portfolio() {
               </div>
             )}
 
-            {!selectedTemplate && (
-              <p className="rb-no-template-warn">⚠ Please select a template above before generating.</p>
-            )}
+
 
             <div className={`rb-bar${prompt.trim() || files.length ? ' rb-bar-active' : ''}`}>
               <div className="rb-plus-wrap">
@@ -621,7 +619,7 @@ function Portfolio() {
               </button>
             </div>
 
-            {error && <p className="rb-no-template-warn">{error}</p>}
+            {error && <div className="gr-error">{error}</div>}
           </div>
 
           {/* ── Loading ── */}

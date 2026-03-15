@@ -47,10 +47,14 @@ function ResumeBuilder() {
     setLoading(true);
     setResumeData(null);
     try {
+      const formData = new FormData();
+      formData.append('prompt', prompt);
+      formData.append('templateId', selectedTemplate);
+      files.forEach(f => formData.append('files', f));
+
       const res = await fetch('http://localhost:5000/api/ai/generate-resume', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt, templateId: selectedTemplate }),
+        body: formData,
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed to generate resume');
@@ -142,7 +146,7 @@ function ResumeBuilder() {
               <p className="rb-prompt-sub">Tell the AI about your experience, skills, and the job you're targeting — or upload a file to get started.</p>
 
               <input ref={fileInputRef} type="file" accept=".jpg,.jpeg,.png,.gif,.webp" multiple style={{ display: 'none' }} onChange={handleFileChange} />
-              <input ref={docInputRef} type="file" accept=".pdf,.doc,.docx,.txt" multiple style={{ display: 'none' }} onChange={handleFileChange} />
+              <input ref={docInputRef} type="file" accept=".pdf,.doc,.docx,.txt,.xlsx,.xls,.csv" multiple style={{ display: 'none' }} onChange={handleFileChange} />
 
               {files.length > 0 && (
                 <div className="rb-file-chips">
@@ -156,9 +160,7 @@ function ResumeBuilder() {
                 </div>
               )}
 
-              {!selectedTemplate && (
-                <p className="rb-no-template-warn">⚠ Please select a template above before generating.</p>
-              )}
+
 
               <div className={`rb-bar${prompt.trim() || files.length ? ' rb-bar-active' : ''}`}>
                 <div className="rb-plus-wrap">
@@ -171,7 +173,7 @@ function ResumeBuilder() {
                         <Image size={16} /><span>Upload Image</span><span className="rb-upload-hint">JPG, PNG</span>
                       </button>
                       <button className="rb-upload-option" onClick={() => docInputRef.current.click()}>
-                        <FileText size={16} /><span>Upload Document</span><span className="rb-upload-hint">PDF, DOCX</span>
+                        <FileText size={16} /><span>Upload Document</span><span className="rb-upload-hint">PDF, DOCX, Excel</span>
                       </button>
                     </div>
                   )}
