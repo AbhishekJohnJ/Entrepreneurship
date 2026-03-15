@@ -732,3 +732,132 @@
   border-top: 1px solid rgba(255,255,255,0.06);
   font-size: 11px; color: #52525b;
 }
+
+/* ── Portfolio Pagination ── */
+.pf-pagination {
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px; margin: 1.25rem 0 0;
+}
+.pf-page-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: #2d2d2d; border: 1.5px solid #3d3d3d;
+  color: #aaa; font-size: 0.9rem; font-weight: 700;
+  cursor: pointer; font-family: 'Inter', sans-serif;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  display: flex; align-items: center; justify-content: center;
+}
+.pf-page-btn:hover { background: rgba(255,161,22,0.15); border-color: #ffa116; color: #ffa116; }
+.pf-page-active { background: #ffa116 !important; border-color: #ffa116 !important; color: #1a1a1a !important; }
+
+/* ════════════════════════════════════
+   T7 — Rose Minimal
+════════════════════════════════════ */
+.pt7 {
+  background: #fff;
+  color: #1a1a1a;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+.pt7-header {
+  background: #fff1f2;
+  border-bottom: 3px solid #fb7185;
+  padding: 28px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.pt7-header-left { display: flex; align-items: center; gap: 16px; }
+.pt7-avatar {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: linear-gradient(135deg, #fb7185, #e11d48);
+  color: #fff; font-size: 20px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.pt7-name { font-size: 22px; font-weight: 800; color: #1a1a1a; margin: 0 0 3px; }
+.pt7-title { font-size: 12px; color: #fb7185; margin: 0; text-transform: uppercase; letter-spacing: 1px; }
+.pt7-contacts { display: flex; gap: 14px; font-size: 11px; color: #888; }
+.pt7-body { display: flex; }
+.pt7-left { width: 260px; flex-shrink: 0; padding: 24px 20px; background: #fff8f8; border-right: 1px solid #ffe4e6; }
+.pt7-right { flex: 1; padding: 24px 28px; }
+.pt7-sec-title {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 2px; color: #fb7185;
+  border-bottom: 1.5px solid #ffe4e6; padding-bottom: 5px; margin: 0 0 10px;
+}
+.pt7-sec-title + * { margin-top: 0; }
+.pt7-block { margin-bottom: 20px; }
+.pt7-text { font-size: 11px; color: #555; line-height: 1.6; margin: 0 0 4px; }
+.pt7-skill-tag {
+  display: inline-block; font-size: 10px; font-weight: 600;
+  padding: 3px 10px; background: #fff1f2; color: #fb7185;
+  border: 1px solid #fecdd3; border-radius: 20px;
+  margin: 0 4px 5px 0;
+}
+.pt7-exp { margin-bottom: 14px; }
+.pt7-exp-period { font-size: 10px; color: #fb7185; font-weight: 700; margin-bottom: 2px; }
+.pt7-exp-role { font-size: 12px; font-weight: 700; color: #1a1a1a; display: block; margin-bottom: 1px; }
+.pt7-exp-company { font-size: 11px; color: #999; margin-bottom: 4px; }
+.pt7-project { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid #fff1f2; }
+.pt7-project:last-child { border-bottom: none; }
+.pt7-project-name { font-size: 13px; font-weight: 700; color: #1a1a1a; margin: 0 0 5px; }
+.pt7-project-desc { font-size: 11px; color: #666; margin: 0 0 8px; line-height: 1.5; }
+.pt7-techs { display: flex; flex-wrap: wrap; gap: 5px; }
+.pt7-tech { background: #fff1f2; color: #fb7185; font-size: 10px; padding: 2px 8px; border-radius: 4px; font-weight: 600; }
+
+/* ════════════════════════════════════
+   T8 — Emerald Split
+════════════════════════════════════ */
+.pt8 {
+  background: #fff;
+  color: #1a1a1a;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  display: flex;
+  min-height: 100%;
+}
+.pt8-sidebar {
+  width: 260px; flex-shrink: 0;
+  background: #064e3b;
+  padding: 32px 20px;
+  display: flex; flex-direction: column;
+}
+.pt8-avatar {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: #10b981;
+  color: #fff; font-size: 24px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 14px;
+  border: 3px solid #34d399;
+}
+.pt8-name { font-size: 15px; font-weight: 700; color: #fff; text-align: center; margin-bottom: 3px; }
+.pt8-title { font-size: 10px; color: #6ee7b7; text-align: center; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
+.pt8-divider { border: none; border-top: 1px solid rgba(255,255,255,0.15); margin: 10px 0; }
+.pt8-sec-title {
+  font-size: 9px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1.5px; color: #34d399;
+  border-bottom: 1px solid rgba(52,211,153,0.3); padding-bottom: 3px; margin: 14px 0 7px;
+}
+.pt8-text { font-size: 10px; color: #a7f3d0; margin: 0 0 3px; line-height: 1.5; }
+.pt8-skill-tag {
+  display: inline-block; font-size: 10px;
+  padding: 2px 9px; background: rgba(16,185,129,0.2); color: #6ee7b7;
+  border-radius: 10px; margin: 0 3px 4px 0;
+}
+.pt8-main { flex: 1; padding: 28px 28px; }
+.pt8-main-sec-title {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1.5px; color: #064e3b;
+  border-bottom: 2px solid #10b981; padding-bottom: 4px; margin: 0 0 12px;
+}
+.pt8-main-sec-title + .pt8-main-sec-title { margin-top: 20px; }
+.pt8-about { font-size: 12px; color: #444; line-height: 1.7; margin: 0 0 20px; }
+.pt8-exp { margin-bottom: 14px; }
+.pt8-exp-period { font-size: 10px; color: #10b981; font-weight: 700; margin-bottom: 2px; }
+.pt8-exp-role { font-size: 12px; font-weight: 700; color: #1a1a1a; display: block; margin-bottom: 1px; }
+.pt8-exp-company { font-size: 11px; color: #888; margin-bottom: 4px; }
+.pt8-exp-desc { font-size: 11px; color: #555; margin: 0; line-height: 1.5; }
+.pt8-project { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid #f0fdf4; }
+.pt8-project:last-child { border-bottom: none; }
+.pt8-project-name { font-size: 13px; font-weight: 700; color: #1a1a1a; margin: 0 0 5px; }
+.pt8-project-desc { font-size: 11px; color: #666; margin: 0 0 8px; line-height: 1.5; }
+.pt8-techs { display: flex; flex-wrap: wrap; gap: 5px; }
+.pt8-tech { background: #d1fae5; color: #064e3b; font-size: 10px; padding: 2px 8px; border-radius: 4px; font-weight: 600; }

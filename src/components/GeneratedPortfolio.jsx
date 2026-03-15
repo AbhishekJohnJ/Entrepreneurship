@@ -279,7 +279,99 @@ function T6({ d }) {
   );
 }
 
-const templates = { 1: T1, 2: T2, 3: T3, 4: T4, 5: T5, 6: T6 };
+function T7({ d }) {
+  return (
+    <div className="pt pt7">
+      <div className="pt7-header">
+        <div className="pt7-header-left">
+          <div className="pt7-avatar">{d.initials || d.name?.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}</div>
+          <div>
+            <div className="pt7-name">{d.name}</div>
+            <div className="pt7-title">{d.title}</div>
+          </div>
+        </div>
+        <div className="pt7-contacts">
+          <span>{d.email}</span><span>·</span><span>{d.location}</span>
+        </div>
+      </div>
+      <div className="pt7-body">
+        <div className="pt7-left">
+          <div className="pt7-block">
+            <div className="pt7-sec-title">About</div>
+            <p className="pt7-text">{d.about}</p>
+          </div>
+          <div className="pt7-block">
+            <div className="pt7-sec-title">Skills</div>
+            {d.skills?.map((s, i) => <span key={i} className="pt7-skill-tag">{s}</span>)}
+          </div>
+          <div className="pt7-block">
+            <div className="pt7-sec-title">Experience</div>
+            {d.experience?.map((e, i) => (
+              <div key={i} className="pt7-exp">
+                <div className="pt7-exp-period">{e.period}</div>
+                <span className="pt7-exp-role">{e.role}</span>
+                <div className="pt7-exp-company">{e.company}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="pt7-right">
+          <div className="pt7-sec-title">Projects</div>
+          {d.projects?.map((p, i) => (
+            <div key={i} className="pt7-project">
+              <div className="pt7-project-name">{p.name}</div>
+              <p className="pt7-project-desc">{p.desc}</p>
+              <div className="pt7-techs">{p.tech?.map((t, j) => <span key={j} className="pt7-tech">{t}</span>)}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function T8({ d }) {
+  return (
+    <div className="pt pt8">
+      <div className="pt8-sidebar">
+        <div className="pt8-avatar">{d.initials || d.name?.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}</div>
+        <div className="pt8-name">{d.name}</div>
+        <div className="pt8-title">{d.title}</div>
+        <div className="pt8-divider" />
+        <div className="pt8-sec-title">Contact</div>
+        <p className="pt8-text">✉ {d.email}</p>
+        {d.phone && <p className="pt8-text">📞 {d.phone}</p>}
+        {d.location && <p className="pt8-text">📍 {d.location}</p>}
+        {d.github && <p className="pt8-text">🔗 {d.github}</p>}
+        <div className="pt8-sec-title">Skills</div>
+        {d.skills?.map((s, i) => <span key={i} className="pt8-skill-tag">{s}</span>)}
+      </div>
+      <div className="pt8-main">
+        <div className="pt8-main-sec-title">About Me</div>
+        <p className="pt8-about">{d.about}</p>
+        <div className="pt8-main-sec-title">Experience</div>
+        {d.experience?.map((e, i) => (
+          <div key={i} className="pt8-exp">
+            <div className="pt8-exp-period">{e.period}</div>
+            <span className="pt8-exp-role">{e.role}</span>
+            <div className="pt8-exp-company">{e.company}</div>
+            <p className="pt8-exp-desc">{e.desc}</p>
+          </div>
+        ))}
+        <div className="pt8-main-sec-title">Projects</div>
+        {d.projects?.map((p, i) => (
+          <div key={i} className="pt8-project">
+            <div className="pt8-project-name">{p.name}</div>
+            <p className="pt8-project-desc">{p.desc}</p>
+            <div className="pt8-techs">{p.tech?.map((t, j) => <span key={j} className="pt8-tech">{t}</span>)}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+const templates = { 1: T1, 2: T2, 3: T3, 4: T4, 5: T5, 6: T6, 7: T7, 8: T8 };
 
 export default function GeneratedPortfolio({ data, templateId }) {
   const Component = templates[templateId] || T1;

@@ -345,6 +345,104 @@ function PortfolioTemplate6() {
     </div>
   );
 }
+/* ══════════════════════════════════════
+   Template 7 — Rose Minimal
+══════════════════════════════════════ */
+function PortfolioTemplate7() {
+  return (
+    <div className="pt pt7">
+      <div className="pt7-header">
+        <div className="pt7-header-left">
+          <div className="pt7-avatar">AM</div>
+          <div>
+            <div className="pt7-name">{pd.name}</div>
+            <div className="pt7-title">{pd.title}</div>
+          </div>
+        </div>
+        <div className="pt7-contacts">
+          <span>{pd.email}</span><span>·</span><span>{pd.location}</span>
+        </div>
+      </div>
+      <div className="pt7-body">
+        <div className="pt7-left">
+          <div className="pt7-block">
+            <div className="pt7-sec-title">About</div>
+            <p className="pt7-text">{pd.about}</p>
+          </div>
+          <div className="pt7-block">
+            <div className="pt7-sec-title">Skills</div>
+            {pd.skills.map((s, i) => <span key={i} className="pt7-skill-tag">{s}</span>)}
+          </div>
+          <div className="pt7-block">
+            <div className="pt7-sec-title">Experience</div>
+            {pd.experience.map((e, i) => (
+              <div key={i} className="pt7-exp">
+                <div className="pt7-exp-period">{e.period}</div>
+                <span className="pt7-exp-role">{e.role}</span>
+                <div className="pt7-exp-company">{e.company}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="pt7-right">
+          <div className="pt7-sec-title">Projects</div>
+          {pd.projects.map((p, i) => (
+            <div key={i} className="pt7-project">
+              <div className="pt7-project-name">{p.name}</div>
+              <p className="pt7-project-desc">{p.desc}</p>
+              <div className="pt7-techs">{p.tech.map((t, j) => <span key={j} className="pt7-tech">{t}</span>)}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════
+   Template 8 — Emerald Split
+══════════════════════════════════════ */
+function PortfolioTemplate8() {
+  return (
+    <div className="pt pt8">
+      <div className="pt8-sidebar">
+        <div className="pt8-avatar">AM</div>
+        <div className="pt8-name">{pd.name}</div>
+        <div className="pt8-title">{pd.title}</div>
+        <div className="pt8-divider" />
+        <div className="pt8-sec-title">Contact</div>
+        <p className="pt8-text">✉ {pd.email}</p>
+        <p className="pt8-text">📞 {pd.phone}</p>
+        <p className="pt8-text">📍 {pd.location}</p>
+        <p className="pt8-text">🔗 {pd.github}</p>
+        <div className="pt8-sec-title">Skills</div>
+        {pd.skills.map((s, i) => <span key={i} className="pt8-skill-tag">{s}</span>)}
+      </div>
+      <div className="pt8-main">
+        <div className="pt8-main-sec-title">About Me</div>
+        <p className="pt8-about">{pd.about}</p>
+        <div className="pt8-main-sec-title">Experience</div>
+        {pd.experience.map((e, i) => (
+          <div key={i} className="pt8-exp">
+            <div className="pt8-exp-period">{e.period}</div>
+            <span className="pt8-exp-role">{e.role}</span>
+            <div className="pt8-exp-company">{e.company}</div>
+            <p className="pt8-exp-desc">{e.desc}</p>
+          </div>
+        ))}
+        <div className="pt8-main-sec-title">Projects</div>
+        {pd.projects.map((p, i) => (
+          <div key={i} className="pt8-project">
+            <div className="pt8-project-name">{p.name}</div>
+            <p className="pt8-project-desc">{p.desc}</p>
+            <div className="pt8-techs">{p.tech.map((t, j) => <span key={j} className="pt8-tech">{t}</span>)}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function ScaledModalPreview({ children }) {
   return (
     <div style={{ width: '100%', overflowY: 'auto', overflowX: 'hidden' }}>
@@ -393,6 +491,8 @@ const portfolioTemplates = [
   { id: 4, name: 'Navy Executive',  tag: 'Corporate',    component: <PortfolioTemplate4 />, recommended: false },
   { id: 5, name: 'Sunset Bold',     tag: 'Bold',         component: <PortfolioTemplate5 />, recommended: false },
   { id: 6, name: 'Glass Dark',      tag: 'Modern',       component: <PortfolioTemplate6 />, recommended: true  },
+  { id: 7, name: 'Rose Minimal',    tag: 'Elegant',      component: <PortfolioTemplate7 />, recommended: false },
+  { id: 8, name: 'Emerald Split',   tag: 'Fresh',        component: <PortfolioTemplate8 />, recommended: false },
 ];
 
 /* ══════════════════════════════════════
@@ -419,6 +519,8 @@ function Portfolio() {
   const [showProfileCard, setShowProfileCard] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState(null);
   const [previewTemplate, setPreviewTemplate] = useState(null);
+  const [page, setPage] = useState(1);
+  const PF_PER_PAGE = 4;
   const [prompt, setPrompt] = useState('');
   const [files, setFiles] = useState([]);
   const [showUploadMenu, setShowUploadMenu] = useState(false);
@@ -524,23 +626,19 @@ function Portfolio() {
           </div>
 
           <div className="pf-grid">
-            {portfolioTemplates.map((tpl) => (
+            {portfolioTemplates.slice((page - 1) * PF_PER_PAGE, page * PF_PER_PAGE).map((tpl) => (
               <div
                 key={tpl.id}
                 className={`pf-card ${selectedTemplate === tpl.id ? 'pf-card-selected' : ''}`}
                 onClick={() => setPreviewTemplate(tpl)}
               >
                 {tpl.recommended && <span className="pf-badge">Recommended</span>}
-
-                {/* Full template preview */}
                 <div className="pf-card-preview">
                   <ScaledPortfolioPreview>{tpl.component}</ScaledPortfolioPreview>
                   <div className="pf-card-overlay">
                     <span className="pf-preview-hint">Click to preview</span>
                   </div>
                 </div>
-
-                {/* Footer info */}
                 <div className="pf-card-footer">
                   <div className="pf-card-meta">
                     <span className="pf-tag">{tpl.tag}</span>
@@ -554,6 +652,18 @@ function Portfolio() {
                   </button>
                 </div>
               </div>
+            ))}
+          </div>
+
+          <div className="pf-pagination">
+            {Array.from({ length: Math.ceil(portfolioTemplates.length / PF_PER_PAGE) }, (_, i) => i + 1).map(p => (
+              <button
+                key={p}
+                className={`pf-page-btn${page === p ? ' pf-page-active' : ''}`}
+                onClick={() => setPage(p)}
+              >
+                {p}
+              </button>
             ))}
           </div>
 
