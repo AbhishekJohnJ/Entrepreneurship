@@ -9,12 +9,67 @@
   padding: 4rem;
   color: #888;
   font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
 }
 
 .mr-empty span {
   color: #ffd700;
   cursor: pointer;
   text-decoration: underline;
+}
+
+.btn-build-now {
+  padding: 0.75rem 2rem;
+  background: transparent;
+  color: #ffd700;
+  border: 2px solid #ffd700;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.3px;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.btn-build-now::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #ffd700;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+  z-index: -1;
+}
+
+.btn-build-now:hover::before {
+  transform: scaleX(1);
+}
+
+.btn-build-now:hover {
+  color: #1a1a1a;
+  box-shadow: 0 4px 20px rgba(255, 215, 0, 0.35);
+}
+
+.btn-build-now.portfolio {
+  color: #ffa116;
+  border-color: #ffa116;
+}
+
+.btn-build-now.portfolio::before {
+  background: #ffa116;
+}
+
+.btn-build-now.portfolio:hover {
+  color: #1a1a1a;
+  box-shadow: 0 4px 20px rgba(255, 161, 22, 0.35);
 }
 
 .mr-grid {

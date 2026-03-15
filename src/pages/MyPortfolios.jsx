@@ -71,7 +71,10 @@ function MyPortfolios() {
             <div className="mr-loading"><div className="gr-spinner" /></div>
           ) : portfolios.length === 0 ? (
             <div className="mr-empty">
-              <p>No portfolios yet. <span onClick={() => navigate('/portfolio')}>Build one now →</span></p>
+              <p>No portfolios yet.</p>
+              <button className="btn-build-now portfolio" onClick={() => navigate('/portfolio')}>
+                Build one now →
+              </button>
             </div>
           ) : (
             <div className="mr-grid">

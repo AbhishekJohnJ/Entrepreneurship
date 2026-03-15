@@ -72,7 +72,10 @@ function MyResumes() {
             <div className="mr-loading"><div className="gr-spinner" /></div>
           ) : resumes.length === 0 ? (
             <div className="mr-empty">
-              <p>No resumes yet. <span onClick={() => navigate('/resume-builder')}>Build one now →</span></p>
+              <p>No resumes yet.</p>
+              <button className="btn-build-now" onClick={() => navigate('/resume-builder')}>
+                Build one now →
+              </button>
             </div>
           ) : (
             <div className="mr-grid">
