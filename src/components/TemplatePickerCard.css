@@ -6,8 +6,30 @@
 .tpl-picker-title { font-size: 1.6rem; font-weight: 700; color: #ffa116; margin: 0 0 0.4rem; font-family: 'Inter', sans-serif; }
 .tpl-picker-sub { font-size: 0.95rem; color: #888; margin: 0; font-family: 'Inter', sans-serif; }
 
+/* ── Slide viewport & track ── */
+.tpl-viewport {
+  width: 100%;
+  overflow: hidden;
+}
+
+.tpl-track {
+  display: flex;
+  will-change: transform;
+}
+
+.tpl-slide {
+  flex-shrink: 0;
+  box-sizing: border-box;
+  padding-right: 0;
+}
+
 /* ── Grid ── */
-.tpl-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.tpl-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
 @media (max-width: 1100px) { .tpl-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 600px)  { .tpl-grid { grid-template-columns: 1fr; } }
 

@@ -519,6 +519,7 @@ function Portfolio() {
   const [selectedTemplate, setSelectedTemplate] = useState(null);
   const [previewTemplate, setPreviewTemplate] = useState(null);
   const [page, setPage] = useState(1);
+  const [sliding, setSliding] = useState(false);
   const PF_PER_PAGE = 4;
   const [showCode, setShowCode] = useState(false);
   const [codeTab, setCodeTab] = useState('html');
@@ -671,47 +672,77 @@ ${markup}
             <p className="page-subtitle">Choose a template to showcase your work and skills</p>
           </div>
 
-          <div className="pf-grid">
-            {portfolioTemplates.slice((page - 1) * PF_PER_PAGE, page * PF_PER_PAGE).map((tpl) => (
-              <div
-                key={tpl.id}
-                className={`pf-card ${selectedTemplate === tpl.id ? 'pf-card-selected' : ''}`}
-                onClick={() => setPreviewTemplate(tpl)}
-              >
-                {tpl.recommended && <span className="pf-badge">Recommended</span>}
-                <div className="pf-card-preview">
-                  <ScaledPortfolioPreview>{tpl.component}</ScaledPortfolioPreview>
-                  <div className="pf-card-overlay">
-                    <span className="pf-preview-hint">Click to preview</span>
-                  </div>
-                </div>
-                <div className="pf-card-footer">
-                  <div className="pf-card-meta">
-                    <span className="pf-tag">{tpl.tag}</span>
-                    <span className="pf-tpl-name">{tpl.name}</span>
-                  </div>
-                  <button
-                    className={`pf-btn-select ${selectedTemplate === tpl.id ? 'pf-btn-selected' : ''}`}
-                    onClick={e => { e.stopPropagation(); setSelectedTemplate(tpl.id); }}
+          {(() => {
+            const totalPages = Math.ceil(portfolioTemplates.length / PF_PER_PAGE);
+            const slideWidth = 100 / totalPages;
+            const trackStyle = {
+              transform: `translateX(-${(page - 1) * slideWidth}%)`,
+              transition: sliding ? 'transform 0.42s cubic-bezier(0.4, 0, 0.2, 1)' : 'none',
+              width: `${totalPages * 100}%`,
+            };
+            const goToPage = (p) => {
+              if (sliding || p === page) return;
+              setSliding(true);
+              requestAnimationFrame(() => setPage(p));
+            };
+            return (
+              <>
+                <div className="pf-viewport">
+                  <div
+                    className="pf-track"
+                    style={trackStyle}
+                    onTransitionEnd={() => setSliding(false)}
                   >
-                    {selectedTemplate === tpl.id ? '✓ Selected' : 'Use Template'}
-                  </button>
+                    {Array.from({ length: totalPages }, (_, pi) => (
+                      <div key={pi} className="pf-slide" style={{ width: `${slideWidth}%` }}>
+                        <div className="pf-grid">
+                          {portfolioTemplates.slice(pi * PF_PER_PAGE, (pi + 1) * PF_PER_PAGE).map((tpl) => (
+                            <div
+                              key={tpl.id}
+                              className={`pf-card ${selectedTemplate === tpl.id ? 'pf-card-selected' : ''}`}
+                              onClick={() => setPreviewTemplate(tpl)}
+                            >
+                              {tpl.recommended && <span className="pf-badge">Recommended</span>}
+                              <div className="pf-card-preview">
+                                <ScaledPortfolioPreview>{tpl.component}</ScaledPortfolioPreview>
+                                <div className="pf-card-overlay">
+                                  <span className="pf-preview-hint">Click to preview</span>
+                                </div>
+                              </div>
+                              <div className="pf-card-footer">
+                                <div className="pf-card-meta">
+                                  <span className="pf-tag">{tpl.tag}</span>
+                                  <span className="pf-tpl-name">{tpl.name}</span>
+                                </div>
+                                <button
+                                  className={`pf-btn-select ${selectedTemplate === tpl.id ? 'pf-btn-selected' : ''}`}
+                                  onClick={e => { e.stopPropagation(); setSelectedTemplate(tpl.id); }}
+                                >
+                                  {selectedTemplate === tpl.id ? '✓ Selected' : 'Use Template'}
+                                </button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
 
-          <div className="pf-pagination">
-            {Array.from({ length: Math.ceil(portfolioTemplates.length / PF_PER_PAGE) }, (_, i) => i + 1).map(p => (
-              <button
-                key={p}
-                className={`pf-page-btn${page === p ? ' pf-page-active' : ''}`}
-                onClick={() => setPage(p)}
-              >
-                {p}
-              </button>
-            ))}
-          </div>
+                <div className="pf-pagination">
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
+                    <button
+                      key={p}
+                      className={`pf-page-btn${page === p ? ' pf-page-active' : ''}`}
+                      onClick={() => goToPage(p)}
+                    >
+                      {p}
+                    </button>
+                  ))}
+                </div>
+              </>
+            );
+          })()}
 
           {/* ── Portfolio Prompt Section ── */}
           <div className="rb-prompt-section">

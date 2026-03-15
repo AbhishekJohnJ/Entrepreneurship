@@ -6,6 +6,21 @@
 }
 
 /* ── 2-column card grid ── */
+.pf-viewport {
+  width: 100%;
+  overflow: hidden;
+}
+
+.pf-track {
+  display: flex;
+  will-change: transform;
+}
+
+.pf-slide {
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
 .pf-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;

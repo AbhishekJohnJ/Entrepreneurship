@@ -4,8 +4,9 @@ import './TemplatePickerCard.css';
 function ScaledPreview({ children, className }) {
   const wrapRef = useRef(null);
   const innerRef = useRef(null);
-  const [scale, setScale] = useState(0.38);
+  const [scale, setScale] = useState(0);
   const [scaledHeight, setScaledHeight] = useState(null);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     const wrap = wrapRef.current;
@@ -14,13 +15,12 @@ function ScaledPreview({ children, className }) {
 
     const update = () => {
       const s = wrap.offsetWidth / 794;
-      setScale(s);
-      // After scale is applied, the rendered height of inner * scale = container height
       const contentH = inner.scrollHeight;
+      setScale(s);
       setScaledHeight(contentH * s);
+      setReady(true);
     };
 
-    // Wait a tick for inner to render before measuring
     const t = setTimeout(update, 0);
     const ro = new ResizeObserver(update);
     ro.observe(wrap);
@@ -29,8 +29,25 @@ function ScaledPreview({ children, className }) {
   }, [children]);
 
   return (
-    <div ref={wrapRef} className={className} style={scaledHeight ? { height: scaledHeight, position: 'relative' } : { position: 'relative' }}>
-      <div ref={innerRef} style={{ transform: `scale(${scale})`, transformOrigin: 'top left', width: 794, position: 'absolute', top: 0, left: 0, pointerEvents: 'none', userSelect: 'none' }}>
+    <div
+      ref={wrapRef}
+      className={className}
+      style={scaledHeight ? { height: scaledHeight, position: 'relative' } : { position: 'relative' }}
+    >
+      <div
+        ref={innerRef}
+        style={{
+          transform: `scale(${scale})`,
+          transformOrigin: 'top left',
+          width: 794,
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          pointerEvents: 'none',
+          userSelect: 'none',
+          visibility: ready ? 'visible' : 'hidden',
+        }}
+      >
         {children}
       </div>
     </div>
@@ -745,9 +762,64 @@ const templates = [
 function TemplatePickerCard({ onSelect, selected }) {
   const [preview, setPreview] = useState(null);
   const [page, setPage] = useState(1);
+  const [sliding, setSliding] = useState(false);
   const PER_PAGE = 6;
   const totalPages = Math.ceil(templates.length / PER_PAGE);
-  const visible = templates.slice((page - 1) * PER_PAGE, page * PER_PAGE);
+
+  const getVisible = (p) => templates.slice((p - 1) * PER_PAGE, p * PER_PAGE);
+
+  // Track is always totalPages wide, positioned so active page is in view
+  // translateX = -(page-1) * (100/totalPages)%
+  const slideWidth = 100 / totalPages; // each slide is this % of the track
+
+  const goToPage = (p) => {
+    if (sliding || p === page) return;
+    setSliding(true);
+    // Use rAF so the transition:none frame paints first, then we update page with transition on
+    requestAnimationFrame(() => {
+      setPage(p);
+    });
+  };
+
+  const handleTransitionEnd = () => {
+    setSliding(false);
+  };
+
+  const trackStyle = {
+    transform: `translateX(-${(page - 1) * slideWidth}%)`,
+    transition: sliding ? 'transform 0.42s cubic-bezier(0.4, 0, 0.2, 1)' : 'none',
+    width: `${totalPages * 100}%`,
+  };
+
+  const renderGrid = (pageIndex) => {
+    const items = getVisible(pageIndex);
+    return (
+      <div
+        key={pageIndex}
+        className="tpl-slide"
+        style={{ width: `${slideWidth}%` }}
+      >
+        <div className="tpl-grid">
+          {items.map((tpl) => (
+            <div
+              key={tpl.id}
+              className={`tpl-card ${selected === tpl.id ? 'tpl-selected' : ''}`}
+              onClick={() => setPreview(tpl)}
+            >
+              {tpl.recommended && <div className="tpl-recommended">Recommended</div>}
+              <ScaledPreview className="tpl-preview-wrap">{tpl.component}</ScaledPreview>
+              <div className="tpl-card-footer">
+                <span className="tpl-card-name">{tpl.name}</span>
+                <button className="tpl-choose-btn" onClick={e => { e.stopPropagation(); onSelect(tpl.id); }}>
+                  {selected === tpl.id ? '✓ Selected' : 'Choose template'}
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className="tpl-picker">
@@ -766,19 +838,14 @@ function TemplatePickerCard({ onSelect, selected }) {
         </div>
       )}
 
-      <div className="tpl-grid">
-        {visible.map((tpl) => (
-          <div key={tpl.id} className={`tpl-card ${selected === tpl.id ? 'tpl-selected' : ''}`} onClick={() => setPreview(tpl)}>
-            {tpl.recommended && <div className="tpl-recommended">Recommended</div>}
-            <ScaledPreview className="tpl-preview-wrap">{tpl.component}</ScaledPreview>
-            <div className="tpl-card-footer">
-              <span className="tpl-card-name">{tpl.name}</span>
-              <button className="tpl-choose-btn" onClick={e => { e.stopPropagation(); onSelect(tpl.id); }}>
-                {selected === tpl.id ? '✓ Selected' : 'Choose template'}
-              </button>
-            </div>
-          </div>
-        ))}
+      <div className="tpl-viewport">
+        <div
+          className="tpl-track"
+          style={trackStyle}
+          onTransitionEnd={handleTransitionEnd}
+        >
+          {Array.from({ length: totalPages }, (_, i) => renderGrid(i + 1))}
+        </div>
       </div>
 
       <div className="tpl-pagination">
@@ -786,7 +853,7 @@ function TemplatePickerCard({ onSelect, selected }) {
           <button
             key={p}
             className={`tpl-page-btn${page === p ? ' tpl-page-active' : ''}`}
-            onClick={() => setPage(p)}
+            onClick={() => goToPage(p)}
           >
             {p}
           </button>
