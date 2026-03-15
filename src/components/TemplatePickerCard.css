@@ -251,3 +251,136 @@
 .rv6-muted { font-size: 9px; color: #aaa; }
 .rv6-award-item { font-size: 10px; color: #333; margin: 0 0 4px; padding-left: 10px; position: relative; }
 .rv6-award-item::before { content: '•'; position: absolute; left: 0; color: #0d9488; }
+
+/* ── Pagination ── */
+.tpl-pagination {
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px; margin: 1.5rem 0 0.5rem;
+}
+.tpl-page-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: #2d2d2d; border: 1.5px solid #3d3d3d;
+  color: #aaa; font-size: 0.9rem; font-weight: 700;
+  cursor: pointer; font-family: 'Inter', sans-serif;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  display: flex; align-items: center; justify-content: center;
+}
+.tpl-page-btn:hover { background: rgba(255,161,22,0.15); border-color: #ffa116; color: #ffa116; }
+.tpl-page-active { background: #ffa116 !important; border-color: #ffa116 !important; color: #1a1a1a !important; }
+
+/* ════════════════════════════════════
+   T7 — Dark Executive
+════════════════════════════════════ */
+.rv7 { font-family: 'Inter', sans-serif; background: #fff; }
+.rv7-header { background: #1a1a1a; padding: 22px 28px; display: flex; align-items: center; gap: 16px; }
+.rv7-photo { width: 72px; height: 72px; border-radius: 50%; background: #c9a84c; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700; color: #1a1a1a; flex-shrink: 0; border: 2px solid #c9a84c; }
+.rv7-name { font-size: 20px; font-weight: 700; color: #fff; letter-spacing: 0.5px; margin-bottom: 3px; }
+.rv7-title { font-size: 11px; color: #c9a84c; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 6px; }
+.rv7-contacts { display: flex; gap: 12px; flex-wrap: wrap; }
+.rv7-contacts span { font-size: 9px; color: #aaa; }
+.rv7-body { padding: 20px 28px; }
+.rv7-sec-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #1a1a1a; border-bottom: 2px solid #c9a84c; padding-bottom: 3px; margin: 14px 0 8px; }
+.rv7-text { font-size: 10px; color: #333; margin: 0 0 3px; line-height: 1.5; }
+.rv7-exp { margin-bottom: 12px; }
+.rv7-exp-header { display: flex; justify-content: space-between; align-items: baseline; }
+.rv7-period { font-size: 9px; color: #c9a84c; font-weight: 700; }
+.rv7-company { font-size: 10px; color: #888; margin: 1px 0 3px; }
+.rv7-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 4px; }
+
+/* ════════════════════════════════════
+   T8 — Purple Creative
+════════════════════════════════════ */
+.rv8 { display: flex; font-family: 'Inter', sans-serif; }
+.rv8-sidebar { width: 230px; background: #4c1d95; padding: 28px 18px; flex-shrink: 0; display: flex; flex-direction: column; }
+.rv8-photo { width: 80px; height: 80px; border-radius: 50%; background: #7c3aed; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; color: #fff; border: 3px solid #a78bfa; }
+.rv8-name { font-size: 14px; font-weight: 700; color: #fff; text-align: center; margin-bottom: 3px; }
+.rv8-title { font-size: 9px; color: #c4b5fd; text-align: center; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
+.rv8-divider { border: none; border-top: 1px solid rgba(255,255,255,0.2); margin: 8px 0; }
+.rv8-sec-title { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #a78bfa; margin: 12px 0 5px; border-bottom: 1px solid rgba(167,139,250,0.3); padding-bottom: 3px; }
+.rv8-text { font-size: 10px; color: #ddd6fe; margin: 0 0 3px; line-height: 1.5; }
+.rv8-main { flex: 1; padding: 28px 22px; }
+.rv8-sec-title-main { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #4c1d95; border-bottom: 2px solid #7c3aed; padding-bottom: 3px; margin: 14px 0 8px; }
+.rv8-main-text { font-size: 10px; color: #333; margin: 0 0 3px; line-height: 1.5; }
+.rv8-exp { margin-bottom: 12px; }
+.rv8-exp-period { font-size: 9px; color: #7c3aed; font-weight: 700; margin-bottom: 2px; }
+.rv8-company { font-size: 10px; color: #888; margin: 1px 0 3px; }
+
+/* ════════════════════════════════════
+   T9 — Minimal White
+════════════════════════════════════ */
+.rv9 { font-family: 'Inter', sans-serif; background: #fff; padding: 32px 36px; }
+.rv9-header { margin-bottom: 16px; }
+.rv9-name { font-size: 26px; font-weight: 700; color: #1a1a1a; letter-spacing: -0.5px; margin-bottom: 3px; }
+.rv9-title { font-size: 12px; color: #555; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
+.rv9-contacts { display: flex; gap: 10px; font-size: 9px; color: #888; }
+.rv9-divider { border: none; border-top: 2px solid #1a1a1a; margin: 12px 0; }
+.rv9-sec-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #1a1a1a; margin: 14px 0 6px; }
+.rv9-text { font-size: 10px; color: #333; margin: 0 0 3px; line-height: 1.5; }
+.rv9-muted { font-size: 9px; color: #999; }
+.rv9-exp { margin-bottom: 10px; }
+.rv9-exp-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px; }
+.rv9-period { font-size: 9px; color: #888; }
+.rv9-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 4px; }
+.rv9-skills-wrap { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 4px; }
+.rv9-skill-tag { font-size: 9px; padding: 2px 8px; border: 1px solid #ddd; border-radius: 20px; color: #555; }
+
+/* ════════════════════════════════════
+   T10 — Red Accent
+════════════════════════════════════ */
+.rv10 { display: flex; font-family: 'Lato', sans-serif; }
+.rv10-sidebar { width: 230px; background: #1a1a1a; padding: 28px 18px; flex-shrink: 0; display: flex; flex-direction: column; }
+.rv10-photo { width: 80px; height: 80px; border-radius: 50%; background: #e53e3e; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; color: #fff; border: 3px solid #fff; }
+.rv10-name { font-size: 14px; font-weight: 700; color: #fff; text-align: center; margin-bottom: 3px; }
+.rv10-title { font-size: 9px; color: #fc8181; text-align: center; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
+.rv10-sec-title { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #e53e3e; margin: 12px 0 5px; border-bottom: 1px solid rgba(229,62,62,0.3); padding-bottom: 3px; }
+.rv10-text { font-size: 10px; color: #ccc; margin: 0 0 3px; line-height: 1.5; }
+.rv10-main { flex: 1; padding: 28px 22px; }
+.rv10-sec-title-main { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #e53e3e; border-bottom: 2px solid #e53e3e; padding-bottom: 3px; margin: 14px 0 8px; }
+.rv10-main-text { font-size: 10px; color: #333; margin: 0 0 3px; line-height: 1.5; }
+.rv10-exp { margin-bottom: 12px; }
+.rv10-exp-period { font-size: 9px; color: #e53e3e; font-weight: 700; margin-bottom: 2px; }
+.rv10-company { font-size: 10px; color: #888; margin: 1px 0 3px; }
+
+/* ════════════════════════════════════
+   T11 — Green Nature
+════════════════════════════════════ */
+.rv11 { font-family: 'Inter', sans-serif; background: #fff; }
+.rv11-header { background: #1a4731; padding: 20px 28px; display: flex; align-items: center; gap: 16px; }
+.rv11-photo { width: 70px; height: 70px; border-radius: 50%; background: #2d6a4f; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700; color: #fff; flex-shrink: 0; border: 2px solid #52b788; }
+.rv11-header-text { flex: 1; }
+.rv11-name { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 3px; }
+.rv11-title { font-size: 10px; color: #95d5b2; text-transform: uppercase; letter-spacing: 1.5px; }
+.rv11-header-contact { text-align: right; }
+.rv11-contact { font-size: 9px; color: #b7e4c7; margin: 0 0 2px; }
+.rv11-body { display: flex; }
+.rv11-left { width: 220px; background: #f0faf4; padding: 18px 16px; flex-shrink: 0; border-right: 2px solid #d8f3dc; }
+.rv11-right { flex: 1; padding: 18px 20px; }
+.rv11-sec-title { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #1a4731; border-bottom: 1.5px solid #52b788; padding-bottom: 3px; margin: 12px 0 7px; }
+.rv11-text { font-size: 10px; color: #333; margin: 0 0 3px; line-height: 1.5; }
+.rv11-skill-tag { display: inline-block; font-size: 9px; padding: 2px 7px; background: #d8f3dc; color: #1a4731; border-radius: 10px; margin: 0 3px 4px 0; }
+.rv11-exp { margin-bottom: 12px; }
+.rv11-exp-period { font-size: 9px; color: #2d6a4f; font-weight: 700; margin-bottom: 2px; }
+.rv11-company { font-size: 10px; color: #888; margin: 1px 0 3px; }
+
+/* ════════════════════════════════════
+   T12 — Navy Classic
+════════════════════════════════════ */
+.rv12 { font-family: 'Lato', sans-serif; background: #fff; }
+.rv12-top { background: #1e3a5f; padding: 20px 28px; display: flex; align-items: center; gap: 16px; }
+.rv12-photo { width: 70px; height: 70px; border-radius: 50%; background: #2d5a8e; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700; color: #fff; flex-shrink: 0; border: 2px solid #93c5fd; }
+.rv12-top-text { flex: 1; }
+.rv12-name { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 3px; }
+.rv12-title { font-size: 10px; color: #93c5fd; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 5px; }
+.rv12-contacts { display: flex; gap: 10px; flex-wrap: wrap; }
+.rv12-contacts span { font-size: 9px; color: #bfdbfe; }
+.rv12-body { display: flex; }
+.rv12-left { width: 220px; background: #f0f4ff; padding: 18px 16px; flex-shrink: 0; border-right: 2px solid #dbeafe; }
+.rv12-right { flex: 1; padding: 18px 20px; }
+.rv12-sec-title { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #1e3a5f; border-bottom: 1.5px solid #1e3a5f; padding-bottom: 3px; margin: 12px 0 7px; }
+.rv12-text { font-size: 10px; color: #333; margin: 0 0 3px; line-height: 1.5; }
+.rv12-muted { font-size: 9px; color: #888; }
+.rv12-exp { margin-bottom: 12px; }
+.rv12-exp-period { font-size: 9px; color: #2d5a8e; font-weight: 700; margin-bottom: 2px; }
+.rv12-company { font-size: 10px; color: #888; margin: 1px 0 3px; }
+.rv12-skills-wrap { display: flex; flex-wrap: wrap; gap: 5px; }
+.rv12-skill-tag { font-size: 9px; padding: 2px 8px; background: #dbeafe; color: #1e3a5f; border-radius: 10px; }

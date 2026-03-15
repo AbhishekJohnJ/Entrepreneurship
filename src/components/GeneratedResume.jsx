@@ -10,6 +10,12 @@ function GeneratedResume({ data, templateId }) {
   if (templateId === 4) return <T4 d={d} initials={initials} />;
   if (templateId === 5) return <T5 d={d} initials={initials} />;
   if (templateId === 6) return <T6 d={d} initials={initials} />;
+  if (templateId === 7) return <T7 d={d} initials={initials} />;
+  if (templateId === 8) return <T8 d={d} initials={initials} />;
+  if (templateId === 9) return <T9 d={d} initials={initials} />;
+  if (templateId === 10) return <T10 d={d} initials={initials} />;
+  if (templateId === 11) return <T11 d={d} initials={initials} />;
+  if (templateId === 12) return <T12 d={d} initials={initials} />;
   return <T1 d={d} initials={initials} />;
 }
 
@@ -361,6 +367,340 @@ function T6({ d, initials }) {
               <p className="rv6-text">{e.desc}</p>
             </div>
           ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── T7: Dark Executive ── */
+function T7({ d, initials }) {
+  return (
+    <div className="rv rv7">
+      <div className="rv7-header">
+        <div className="rv7-photo"><span>{initials}</span></div>
+        <div>
+          <div className="rv7-name">{d.name}</div>
+          <div className="rv7-title">{d.title}</div>
+          <div className="rv7-contacts">
+            <span>✉ {d.email}</span><span>📞 {d.phone}</span><span>📍 {d.location}</span>
+            {d.linkedin && <span>🔗 {d.linkedin}</span>}
+          </div>
+        </div>
+      </div>
+      <div className="rv7-body">
+        <div className="rv7-sec-title">Professional Summary</div>
+        <p className="rv7-text">{d.summary}</p>
+        <div className="rv7-sec-title">Experience</div>
+        {d.experience?.map((e, i) => (
+          <div key={i} className="rv7-exp">
+            <div className="rv7-exp-header">
+              <strong className="rv7-text">{e.role}</strong>
+              <span className="rv7-period">{e.period}</span>
+            </div>
+            <div className="rv7-company">{e.company}</div>
+            <p className="rv7-text">{e.desc}</p>
+          </div>
+        ))}
+        <div className="rv7-two-col">
+          <div>
+            <div className="rv7-sec-title">Education</div>
+            {d.education?.map((e, i) => (
+              <div key={i} style={{ marginBottom: 8 }}>
+                <strong className="rv7-text">{e.degree}</strong>
+                <div className="rv7-company">{e.school} · {e.year}</div>
+              </div>
+            ))}
+            {d.awards?.length > 0 && <>
+              <div className="rv7-sec-title">Awards</div>
+              {d.awards.map((a, i) => <p key={i} className="rv7-text">• {a}</p>)}
+            </>}
+          </div>
+          <div>
+            <div className="rv7-sec-title">Skills</div>
+            {d.skills?.map((s, i) => (
+              <div key={i} style={{ marginBottom: 5 }}>
+                <span className="rv7-text">{s}</span>
+                <div style={{ height: 3, background: '#333', borderRadius: 2, marginTop: 2 }}>
+                  <div style={{ width: `${90 - i * 8}%`, height: '100%', background: '#c9a84c', borderRadius: 2 }} />
+                </div>
+              </div>
+            ))}
+            {d.languages?.length > 0 && <>
+              <div className="rv7-sec-title">Languages</div>
+              {d.languages.map((l, i) => <p key={i} className="rv7-text">{l}</p>)}
+            </>}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── T8: Purple Creative ── */
+function T8({ d, initials }) {
+  return (
+    <div className="rv rv8">
+      <div className="rv8-sidebar">
+        <div className="rv8-photo"><span>{initials}</span></div>
+        <div className="rv8-name">{d.name}</div>
+        <div className="rv8-title">{d.title}</div>
+        <div className="rv8-divider" />
+        <div className="rv8-sec-title">Contact</div>
+        <p className="rv8-text">✉ {d.email}</p>
+        <p className="rv8-text">📞 {d.phone}</p>
+        <p className="rv8-text">📍 {d.location}</p>
+        {d.linkedin && <p className="rv8-text">🔗 {d.linkedin}</p>}
+        <div className="rv8-sec-title">Skills</div>
+        {d.skills?.map((s, i) => <p key={i} className="rv8-text">▸ {s}</p>)}
+        {d.languages?.length > 0 && <>
+          <div className="rv8-sec-title">Languages</div>
+          {d.languages.map((l, i) => <p key={i} className="rv8-text">{l}</p>)}
+        </>}
+        {d.awards?.length > 0 && <>
+          <div className="rv8-sec-title">Awards</div>
+          {d.awards.map((a, i) => <p key={i} className="rv8-text">★ {a}</p>)}
+        </>}
+      </div>
+      <div className="rv8-main">
+        <div className="rv8-sec-title-main">About Me</div>
+        <p className="rv8-main-text">{d.summary}</p>
+        <div className="rv8-sec-title-main">Experience</div>
+        {d.experience?.map((e, i) => (
+          <div key={i} className="rv8-exp">
+            <div className="rv8-exp-period">{e.period}</div>
+            <strong className="rv8-main-text">{e.role}</strong>
+            <div className="rv8-company">{e.company}</div>
+            <p className="rv8-main-text">{e.desc}</p>
+          </div>
+        ))}
+        <div className="rv8-sec-title-main">Education</div>
+        {d.education?.map((e, i) => (
+          <div key={i} style={{ marginBottom: 8 }}>
+            <strong className="rv8-main-text">{e.degree}</strong>
+            <div className="rv8-company">{e.school} · {e.year}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── T9: Minimal White ── */
+function T9({ d, initials }) {
+  return (
+    <div className="rv rv9">
+      <div className="rv9-header">
+        <div className="rv9-name">{d.name}</div>
+        <div className="rv9-title">{d.title}</div>
+        <div className="rv9-contacts">
+          <span>{d.email}</span><span>|</span><span>{d.phone}</span><span>|</span><span>{d.location}</span>
+          {d.linkedin && <><span>|</span><span>{d.linkedin}</span></>}
+        </div>
+        <div className="rv9-divider" />
+      </div>
+      <div className="rv9-body">
+        <div className="rv9-sec-title">Summary</div>
+        <p className="rv9-text">{d.summary}</p>
+        <div className="rv9-sec-title">Experience</div>
+        {d.experience?.map((e, i) => (
+          <div key={i} className="rv9-exp">
+            <div className="rv9-exp-header">
+              <strong className="rv9-text">{e.role} — {e.company}</strong>
+              <span className="rv9-period">{e.period}</span>
+            </div>
+            <p className="rv9-text">{e.desc}</p>
+          </div>
+        ))}
+        <div className="rv9-two-col">
+          <div>
+            <div className="rv9-sec-title">Education</div>
+            {d.education?.map((e, i) => (
+              <div key={i} style={{ marginBottom: 6 }}>
+                <strong className="rv9-text">{e.degree}</strong>
+                <div className="rv9-muted">{e.school} · {e.year}</div>
+              </div>
+            ))}
+            {d.awards?.length > 0 && <>
+              <div className="rv9-sec-title">Awards</div>
+              {d.awards.map((a, i) => <p key={i} className="rv9-text">• {a}</p>)}
+            </>}
+          </div>
+          <div>
+            <div className="rv9-sec-title">Skills</div>
+            <div className="rv9-skills-wrap">
+              {d.skills?.map((s, i) => <span key={i} className="rv9-skill-tag">{s}</span>)}
+            </div>
+            {d.languages?.length > 0 && <>
+              <div className="rv9-sec-title">Languages</div>
+              {d.languages.map((l, i) => <p key={i} className="rv9-text">{l}</p>)}
+            </>}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── T10: Red Accent ── */
+function T10({ d, initials }) {
+  return (
+    <div className="rv rv10">
+      <div className="rv10-sidebar">
+        <div className="rv10-photo"><span>{initials}</span></div>
+        <div className="rv10-name">{d.name}</div>
+        <div className="rv10-title">{d.title}</div>
+        <div className="rv10-sec-title">Contact</div>
+        <p className="rv10-text">✉ {d.email}</p>
+        <p className="rv10-text">📞 {d.phone}</p>
+        <p className="rv10-text">📍 {d.location}</p>
+        {d.linkedin && <p className="rv10-text">🔗 {d.linkedin}</p>}
+        <div className="rv10-sec-title">Skills</div>
+        {d.skills?.map((s, i) => (
+          <div key={i} style={{ marginBottom: 5 }}>
+            <span className="rv10-text">{s}</span>
+            <div style={{ height: 3, background: 'rgba(255,255,255,0.2)', borderRadius: 2, marginTop: 2 }}>
+              <div style={{ width: `${90 - i * 8}%`, height: '100%', background: '#e53e3e', borderRadius: 2 }} />
+            </div>
+          </div>
+        ))}
+        {d.languages?.length > 0 && <>
+          <div className="rv10-sec-title">Languages</div>
+          {d.languages.map((l, i) => <p key={i} className="rv10-text">{l}</p>)}
+        </>}
+      </div>
+      <div className="rv10-main">
+        <div className="rv10-sec-title-main">Profile</div>
+        <p className="rv10-main-text">{d.summary}</p>
+        <div className="rv10-sec-title-main">Experience</div>
+        {d.experience?.map((e, i) => (
+          <div key={i} className="rv10-exp">
+            <div className="rv10-exp-period">{e.period}</div>
+            <strong className="rv10-main-text">{e.role}</strong>
+            <div className="rv10-company">{e.company}</div>
+            <p className="rv10-main-text">{e.desc}</p>
+          </div>
+        ))}
+        <div className="rv10-sec-title-main">Education</div>
+        {d.education?.map((e, i) => (
+          <div key={i} style={{ marginBottom: 8 }}>
+            <strong className="rv10-main-text">{e.degree}</strong>
+            <div className="rv10-company">{e.school} · {e.year}</div>
+          </div>
+        ))}
+        {d.awards?.length > 0 && <>
+          <div className="rv10-sec-title-main">Awards</div>
+          {d.awards.map((a, i) => <p key={i} className="rv10-main-text">• {a}</p>)}
+        </>}
+      </div>
+    </div>
+  );
+}
+
+/* ── T11: Green Nature ── */
+function T11({ d, initials }) {
+  return (
+    <div className="rv rv11">
+      <div className="rv11-header">
+        <div className="rv11-photo"><span>{initials}</span></div>
+        <div className="rv11-header-text">
+          <div className="rv11-name">{d.name}</div>
+          <div className="rv11-title">{d.title}</div>
+        </div>
+        <div className="rv11-header-contact">
+          <p className="rv11-contact">✉ {d.email}</p>
+          <p className="rv11-contact">📞 {d.phone}</p>
+          <p className="rv11-contact">📍 {d.location}</p>
+          {d.linkedin && <p className="rv11-contact">🔗 {d.linkedin}</p>}
+        </div>
+      </div>
+      <div className="rv11-body">
+        <div className="rv11-left">
+          <div className="rv11-sec-title">About</div>
+          <p className="rv11-text">{d.summary}</p>
+          <div className="rv11-sec-title">Skills</div>
+          {d.skills?.map((s, i) => <span key={i} className="rv11-skill-tag">{s}</span>)}
+          {d.languages?.length > 0 && <>
+            <div className="rv11-sec-title">Languages</div>
+            {d.languages.map((l, i) => <p key={i} className="rv11-text">{l}</p>)}
+          </>}
+          {d.awards?.length > 0 && <>
+            <div className="rv11-sec-title">Awards</div>
+            {d.awards.map((a, i) => <p key={i} className="rv11-text">🏆 {a}</p>)}
+          </>}
+        </div>
+        <div className="rv11-right">
+          <div className="rv11-sec-title">Experience</div>
+          {d.experience?.map((e, i) => (
+            <div key={i} className="rv11-exp">
+              <div className="rv11-exp-period">{e.period}</div>
+              <strong className="rv11-text">{e.role}</strong>
+              <div className="rv11-company">{e.company}</div>
+              <p className="rv11-text">{e.desc}</p>
+            </div>
+          ))}
+          <div className="rv11-sec-title">Education</div>
+          {d.education?.map((e, i) => (
+            <div key={i} style={{ marginBottom: 8 }}>
+              <strong className="rv11-text">{e.degree}</strong>
+              <div className="rv11-company">{e.school} · {e.year}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── T12: Navy Classic ── */
+function T12({ d, initials }) {
+  return (
+    <div className="rv rv12">
+      <div className="rv12-top">
+        <div className="rv12-photo"><span>{initials}</span></div>
+        <div className="rv12-top-text">
+          <div className="rv12-name">{d.name}</div>
+          <div className="rv12-title">{d.title}</div>
+          <div className="rv12-contacts">
+            <span>✉ {d.email}</span><span>📞 {d.phone}</span><span>📍 {d.location}</span>
+            {d.linkedin && <span>🔗 {d.linkedin}</span>}
+          </div>
+        </div>
+      </div>
+      <div className="rv12-body">
+        <div className="rv12-left">
+          <div className="rv12-sec-title">Summary</div>
+          <p className="rv12-text">{d.summary}</p>
+          <div className="rv12-sec-title">Education</div>
+          {d.education?.map((e, i) => (
+            <div key={i} style={{ marginBottom: 8 }}>
+              <strong className="rv12-text">{e.degree}</strong>
+              <div className="rv12-muted">{e.school} · {e.year}</div>
+            </div>
+          ))}
+          {d.languages?.length > 0 && <>
+            <div className="rv12-sec-title">Languages</div>
+            {d.languages.map((l, i) => <p key={i} className="rv12-text">{l}</p>)}
+          </>}
+          {d.awards?.length > 0 && <>
+            <div className="rv12-sec-title">Awards</div>
+            {d.awards.map((a, i) => <p key={i} className="rv12-text">• {a}</p>)}
+          </>}
+        </div>
+        <div className="rv12-right">
+          <div className="rv12-sec-title">Experience</div>
+          {d.experience?.map((e, i) => (
+            <div key={i} className="rv12-exp">
+              <div className="rv12-exp-period">{e.period}</div>
+              <strong className="rv12-text">{e.role}</strong>
+              <div className="rv12-company">{e.company}</div>
+              <p className="rv12-text">{e.desc}</p>
+            </div>
+          ))}
+          <div className="rv12-sec-title">Skills</div>
+          <div className="rv12-skills-wrap">
+            {d.skills?.map((s, i) => <span key={i} className="rv12-skill-tag">{s}</span>)}
+          </div>
         </div>
       </div>
     </div>
