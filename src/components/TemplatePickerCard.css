@@ -14,13 +14,14 @@
 
 .tpl-track {
   display: flex;
+  align-items: flex-start;
   will-change: transform;
 }
 
 .tpl-slide {
   flex-shrink: 0;
   box-sizing: border-box;
-  padding-right: 0;
+  min-width: 0;
 }
 
 /* ── Grid ── */
@@ -28,6 +29,9 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+  align-content: start;
 }
 
 @media (max-width: 1100px) { .tpl-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -53,7 +57,7 @@
 /* ── Preview wrap — fixed height for grid cards, clips overflow ── */
 .tpl-preview-wrap {
   overflow: hidden; background: #fff; cursor: pointer; width: 100%;
-  border-bottom: 1px solid #2d2d2d; height: 360px; position: relative;
+  border-bottom: 1px solid #2d2d2d; height: 360px !important; position: relative;
 }
 
 /* ── Card footer ── */
